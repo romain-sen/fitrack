@@ -1,5 +1,6 @@
+import { TimeGoalDetailed } from "@/modules/home/components/TimeGoalDetailed";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import "../global.css";
 
 export default function App() {
@@ -11,26 +12,7 @@ export default function App() {
         <Text className="text-white text-xl font-bold">Start</Text>
       </TouchableOpacity>
 
-      <View className="flex-row justify-between w-full mb-4">
-        <View className="flex-1 items-center">
-          <Text className="text-base font-medium">Time goal</Text>
-        </View>
-        <View className="flex-1 items-center">
-          <Text className="text-base">48min</Text>
-        </View>
-      </View>
-
-      <View className="w-full border border-gray-300 rounded-xl p-4 mb-4">
-        <Text className="text-base mb-1">• Running : 6:00 min/km</Text>
-        <Text className="text-base mb-1">• Pull ups : 10/min</Text>
-        <Text className="text-base mb-1">• Push ups : 20/min</Text>
-        <Text className="text-base mb-1">• Squats : 30/min</Text>
-        <Text className="text-base">• Running : 7:00 min/km</Text>
-      </View>
-
-      <View className="w-full border border-gray-300 rounded-xl p-2 mb-6">
-        <Text className="text-base">• Transition : 20 sec</Text>
-      </View>
+      <TimeGoalDetailed />
 
       <TouchableOpacity className="bg-gray-200 px-6 py-3 rounded-xl">
         <Text className="text-lg font-medium">Previous score</Text>

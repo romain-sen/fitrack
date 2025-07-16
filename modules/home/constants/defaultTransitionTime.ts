@@ -1,0 +1,1 @@
+export const DEFAULT_TRANSITION_TIME_IN_SEC = 20;
