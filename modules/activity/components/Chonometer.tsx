@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Text, View } from "react-native";
 
 const formatTime = (timeInSeconds: number) => {
@@ -14,24 +14,23 @@ const formatTime = (timeInSeconds: number) => {
 };
 
 interface ChronometerProps {
+  timeInSeconds: number;
+  setTimeInSeconds: (timeInSeconds: number) => void;
   running: boolean;
-  resetTrigger?: number; // increment this prop to trigger reset
 }
 
-export const Chronometer = ({ running, resetTrigger }: ChronometerProps) => {
-  const [seconds, setSeconds] = useState(0);
+export const Chronometer = ({
+  timeInSeconds,
+  setTimeInSeconds,
+  running,
+}: ChronometerProps) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Reset timer when resetTrigger changes
-  useEffect(() => {
-    setSeconds(0);
-  }, [resetTrigger]);
 
   // Manage the timer interval depending on running prop
   useEffect(() => {
     if (running) {
       intervalRef.current = setInterval(() => {
-        setSeconds((prev) => prev + 1);
+        setTimeInSeconds((prev) => prev + 1);
       }, 1000) as unknown as NodeJS.Timeout;
     } else {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -45,7 +44,7 @@ export const Chronometer = ({ running, resetTrigger }: ChronometerProps) => {
   return (
     <View className="items-center">
       <Text className="text-4xl font-mono text-text">
-        {formatTime(seconds)}
+        {formatTime(timeInSeconds)}
       </Text>
     </View>
   );
