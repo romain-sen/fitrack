@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
 import { useCountdown } from "../hooks/useCountdown";
-import { Chronometer } from "./Chonometer";
+import { Chronometer } from "./Chronometer";
 import { Countdown } from "./Countdown";
 import { StopResetButton } from "./StopResetButton";
 
@@ -16,7 +16,7 @@ export const ActivityScreenContent = () => {
   if (!running) {
     return (
       <View className="flex-1 bg-background py-xl px-lg">
-        <Text className="text-lg text-text">Activity</Text>
+        <Text className="text-lg text-text">Loading...</Text>
       </View>
     );
   }

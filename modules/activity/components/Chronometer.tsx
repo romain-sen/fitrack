@@ -15,7 +15,7 @@ const formatTime = (timeInSeconds: number) => {
 
 interface ChronometerProps {
   timeInSeconds: number;
-  setTimeInSeconds: (timeInSeconds: number) => void;
+  setTimeInSeconds: React.Dispatch<React.SetStateAction<number>>;
   running: boolean;
 }
 
