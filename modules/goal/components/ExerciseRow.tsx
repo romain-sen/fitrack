@@ -1,3 +1,4 @@
+import { XStack } from "@/components/ui/XStack";
 import { Pressable, Text, View } from "react-native";
 
 interface RowProps {
@@ -22,7 +23,7 @@ export const ExerciseRow = ({
         • {label} : {value}
         {unit}
       </Text>
-      <View className="flex-row space-x-sm">
+      <XStack className="gap-xs">
         <Pressable
           onPress={onDecrement}
           className="bg-muted px-sm py-xss rounded-lg items-center justify-center"
@@ -35,7 +36,7 @@ export const ExerciseRow = ({
         >
           <Text className="text-lg font-bold text-text text-center">+</Text>
         </Pressable>
-      </View>
+      </XStack>
     </View>
   );
 };
