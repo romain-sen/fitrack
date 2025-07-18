@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useCountdown = () => {
+export const useChronometer = () => {
   const [running, setRunning] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(5);
 
@@ -8,7 +8,7 @@ export const useCountdown = () => {
     if (countdown !== null && countdown > 0) {
       const timer = setTimeout(() => {
         setCountdown(countdown - 1);
-      }, 1000);
+      }, 100); // TODO: change to 1000 for production
       return () => clearTimeout(timer);
     } else if (countdown === 0) {
       setRunning(true);
@@ -16,10 +16,20 @@ export const useCountdown = () => {
     }
   }, [countdown]);
 
-  const resetCountdown = () => {
+  const resetChronometerAndCountdown = () => {
     setCountdown(5);
     setRunning(false);
   };
 
-  return { countdown, setCountdown, running, resetCountdown };
+  const pauseChronometer = () => {
+    setRunning(false);
+  };
+
+  return {
+    countdown,
+    setCountdown,
+    running,
+    resetChronometerAndCountdown,
+    pauseChronometer,
+  };
 };

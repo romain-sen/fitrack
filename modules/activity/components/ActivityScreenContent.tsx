@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
-import { useCountdown } from "../hooks/useCountdown";
+import { useChronometer } from "../hooks/useChronometer";
 import { Chronometer } from "./Chronometer";
 import { Countdown } from "./Countdown";
 import { StopResetButton } from "./StopResetButton";
+import { WorkoutTracking } from "./WorkoutStepTrack/WorkoutTracking";
 
 export const ActivityScreenContent = () => {
   const [timeInSeconds, setTimeInSeconds] = useState(0);
-  const { countdown, running, resetCountdown } = useCountdown();
+  const { countdown, running, resetChronometerAndCountdown, pauseChronometer } =
+    useChronometer();
+
+  const finishWorkout = () => {
+    // pauseChronometer();
+    console.log("Workout finished");
+    // TODO : redirect to results screen
+  };
 
   if (countdown !== null && countdown > 0) {
     return <Countdown countdown={countdown} />;
@@ -28,8 +36,12 @@ export const ActivityScreenContent = () => {
         timeInSeconds={timeInSeconds}
         setTimeInSeconds={setTimeInSeconds}
       />
+      <WorkoutTracking
+        timeInSeconds={timeInSeconds}
+        finishWorkout={finishWorkout}
+      />
       <View className="mt-auto">
-        <StopResetButton onPress={resetCountdown} />
+        <StopResetButton onPress={resetChronometerAndCountdown} />
       </View>
     </View>
   );

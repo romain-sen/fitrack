@@ -31,7 +31,7 @@ export const Chronometer = ({
     if (running) {
       intervalRef.current = setInterval(() => {
         setTimeInSeconds((prev) => prev + 1);
-      }, 1000) as unknown as NodeJS.Timeout;
+      }, 500) as unknown as NodeJS.Timeout; // TODO: change to 1000 for production
     } else {
       if (intervalRef.current) clearInterval(intervalRef.current);
     }
