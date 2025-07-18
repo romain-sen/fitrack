@@ -22,18 +22,18 @@ export const ExerciseRow = ({
         • {label} : {value}
         {unit}
       </Text>
-      <View className="flex-row space-x-2">
+      <View className="flex-row space-x-sm">
         <Pressable
           onPress={onDecrement}
-          className="bg-muted px-2 py-1 rounded-full"
+          className="bg-muted px-sm py-xss rounded-lg items-center justify-center"
         >
-          <Text className="text-lg font-bold text-text">−</Text>
+          <Text className="text-lg font-bold text-text text-center">−</Text>
         </Pressable>
         <Pressable
           onPress={onIncrement}
-          className="bg-muted px-2 py-1 rounded-full"
+          className="bg-muted px-sm py-xxs rounded-lg items-center justify-center"
         >
-          <Text className="text-lg font-bold text-text">+</Text>
+          <Text className="text-lg font-bold text-text text-center">+</Text>
         </Pressable>
       </View>
     </View>
