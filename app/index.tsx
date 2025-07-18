@@ -1,4 +1,4 @@
-import { TimeGoalDetailed } from "@/modules/home/components/TimeGoalDetailed";
+import { TimeGoalDetailed } from "@/modules/goal/components/TimeGoalDetailed";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import "../global.css";
