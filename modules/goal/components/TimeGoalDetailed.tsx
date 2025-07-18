@@ -39,12 +39,14 @@ export const TimeGoalDetailed = () => {
     <View className="w-full">
       {/* Total Time Display */}
       <View className="flex-row justify-between items-center mb-4">
-        <Text className="text-base font-medium">Time goal</Text>
-        <Text className="text-base">{formatMinutes(totalTimeInMinutes)}</Text>
+        <Text className="text-base font-medium text-text">Time goal</Text>
+        <Text className="text-base text-text">
+          {formatMinutes(totalTimeInMinutes)}
+        </Text>
       </View>
 
       {/* Exercise Details */}
-      <View className="border border-gray-300 rounded-xl p-4 mb-4 space-y-2">
+      <View className="border border-muted rounded-xl p-4 mb-4 space-y-2 bg-surface">
         {exercises.map((ex, index) => (
           <ExerciseRow
             key={index}
@@ -59,7 +61,7 @@ export const TimeGoalDetailed = () => {
       </View>
 
       {/* Transition Display */}
-      <View className="border border-gray-300 rounded-xl p-2">
+      <View className="border border-muted rounded-xl p-2 bg-surface">
         <ExerciseRow
           index={exercises.length}
           label={"Transition"}

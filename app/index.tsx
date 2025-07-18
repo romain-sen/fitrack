@@ -1,24 +1,32 @@
+import ThemeToggle from "@/components/ThemeToggle";
 import { TimeGoalDetailed } from "@/modules/goal/components/TimeGoalDetailed";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, Text, TouchableOpacity } from "react-native";
-import "../global.css";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
 export default function App() {
   return (
-    <SafeAreaView className="flex-1 bg-white items-center justify-center px-4">
-      <Text className="text-2xl font-semibold mb-6">Murph circuit</Text>
+    <SafeAreaView className="flex-1 bg-background">
+      {/* Header */}
+      <View className="flex-row justify-between items-center mb-8 px-6">
+        <Text className="text-2xl font-bold text-text">Murph circuit</Text>
+        <ThemeToggle />
+      </View>
 
-      <TouchableOpacity className="bg-black px-6 py-3 rounded-xl mb-6">
-        <Text className="text-white text-xl font-bold">Start</Text>
-      </TouchableOpacity>
+      {/* Contenu principal */}
+      <View className="flex-1 justify-center items-center gap-6 px-6">
+        {/* Bouton principal avec orange vif */}
+        <TouchableOpacity className="bg-accent px-8 py-4 rounded-full shadow-md">
+          <Text className="text-background text-xl font-bold">Start</Text>
+        </TouchableOpacity>
 
-      <TimeGoalDetailed />
+        <TimeGoalDetailed />
 
-      <TouchableOpacity className="bg-gray-200 px-6 py-3 rounded-xl">
-        <Text className="text-lg font-medium">Previous score</Text>
-      </TouchableOpacity>
-
-      <StatusBar style="auto" />
+        {/* Bouton secondaire, bordure orange clair */}
+        <TouchableOpacity className="border border-accent-light px-6 py-3 rounded-full">
+          <Text className="text-text text-base font-medium">
+            Previous score
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
