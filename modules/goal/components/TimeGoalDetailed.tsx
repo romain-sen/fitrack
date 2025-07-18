@@ -25,9 +25,9 @@ export const TimeGoalDetailed = () => {
         i === index
           ? {
               ...ex,
-              value: Math.max(
+              goalValue: Math.max(
                 ex.minValue,
-                Math.round((ex.value + delta) * 10) / 10
+                Math.round((ex.goalValue + delta) * 10) / 10
               ),
             }
           : ex
@@ -52,10 +52,10 @@ export const TimeGoalDetailed = () => {
             key={index}
             index={index}
             label={ex.label}
-            value={ex.value}
+            value={ex.goalValue}
             unit={ex.unit}
-            onIncrement={() => updateValue(index, ex.step)}
-            onDecrement={() => updateValue(index, -ex.step)}
+            onIncrement={() => updateValue(index, ex.adjustingStep)}
+            onDecrement={() => updateValue(index, -ex.adjustingStep)}
           />
         ))}
       </View>
