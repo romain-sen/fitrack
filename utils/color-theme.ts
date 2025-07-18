@@ -10,7 +10,10 @@ export const themes = {
     "--color-muted": "#888888", // Texte secondaire, désactivé
     "--color-accent": "#FFA500", // Orange principal
     "--color-accent-light": "#FFB733", // Orange plus clair (hover, fond accent)
+    "--color-red": "#EF4444", // Rouge principal (ex: stop, delete)
+    "--color-red-light": "#FCA5A5", // Rouge clair (hover, fond d’avertissement)
   }),
+
   dark: vars({
     "--color-primary": "#FFFFFF", // Texte principal
     "--color-primary-light": "#CCCCCC", // Texte secondaire
@@ -20,5 +23,7 @@ export const themes = {
     "--color-muted": "#AAAAAA", // Texte secondaire
     "--color-accent": "#FFA500", // Orange accent (inchangé)
     "--color-accent-light": "#FFB733", // Orange clair
+    "--color-red": "#EF4444", // Rouge principal
+    "--color-red-light": "#F87171", // Rouge clair adapté au dark mode
   }),
 };

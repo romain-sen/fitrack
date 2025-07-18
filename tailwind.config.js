@@ -20,6 +20,8 @@ module.exports = {
         muted: "var(--color-muted)",
         accent: "var(--color-accent)",
         "accent-light": "var(--color-accent-light)",
+        red: "var(--color-red)",
+        "red-light": "var(--color-red-light)",
       },
       spacing: {
         xxs: "2px",
