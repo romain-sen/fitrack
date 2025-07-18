@@ -1,8 +1,11 @@
 import ThemeToggle from "@/components/ThemeToggle";
 import { TimeGoalDetailed } from "@/modules/goal/components/TimeGoalDetailed";
+import { useRouter } from "expo-router";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
 export default function App() {
+  const router = useRouter();
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       {/* Header */}
@@ -14,7 +17,10 @@ export default function App() {
       {/* Contenu principal */}
       <View className="flex-1 justify-center items-center gap-md px-md">
         {/* Bouton principal avec orange vif */}
-        <TouchableOpacity className="bg-accent px-md py rounded-lg shadow-md">
+        <TouchableOpacity
+          onPress={() => router.push("/activity")}
+          className="bg-accent px-md py rounded-lg shadow-md"
+        >
           <Text className="text-background text-xl font-bold">Start</Text>
         </TouchableOpacity>
 

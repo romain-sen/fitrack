@@ -21,10 +21,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
 
-  console.log("ThemeProvider - currentTheme:", currentTheme);
-
   const toggleTheme = () => {
-    console.log("toggleTheme");
     const newTheme = currentTheme === "light" ? "dark" : "light";
     setCurrentTheme(newTheme);
     colorScheme.set(newTheme);
