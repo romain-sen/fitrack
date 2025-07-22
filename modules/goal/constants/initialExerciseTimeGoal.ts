@@ -1,43 +1,43 @@
-import { Exercise } from "../types/Exercise";
+import { ExerciseGoal } from "../types/ExerciseGoal";
 
-export const INITIAL_EXERCISE_TIME_GOAL: Exercise[] = [
+export const INITIAL_EXERCISE_TIME_GOAL: ExerciseGoal[] = [
   {
     label: "Running 1",
     unit: "km/h",
-    goalValue: 10,
-    minValue: 5,
+    goalValueInSeconds: 10,
+    minValueInSeconds: 5,
     adjustingStep: 0.5,
     taskAmount: 1.6,
   },
   {
     label: "Pull ups",
     unit: "rep/min",
-    goalValue: 10,
-    minValue: 1,
+    goalValueInSeconds: 10,
+    minValueInSeconds: 1,
     adjustingStep: 1,
     taskAmount: 100,
   },
   {
     label: "Push ups",
     unit: "rep/min",
-    goalValue: 20,
-    minValue: 1,
+    goalValueInSeconds: 20,
+    minValueInSeconds: 1,
     adjustingStep: 1,
     taskAmount: 200,
   },
   {
     label: "Squats",
     unit: "rep/min",
-    goalValue: 30,
-    minValue: 1,
+    goalValueInSeconds: 30,
+    minValueInSeconds: 1,
     adjustingStep: 1,
     taskAmount: 300,
   },
   {
     label: "Running 2",
     unit: "km/h",
-    goalValue: 8.5,
-    minValue: 5,
+    goalValueInSeconds: 8.5,
+    minValueInSeconds: 5,
     adjustingStep: 0.5,
     taskAmount: 1.6,
   },

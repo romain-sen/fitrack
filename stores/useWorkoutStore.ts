@@ -1,5 +1,5 @@
-// stores/useWorkoutStore.ts
 import { Workout } from "@/modules/activity/types/Workout";
+import { ExerciseGoal } from "@/modules/goal/types/ExerciseGoal";
 import { create } from "zustand";
 
 type WorkoutStore = {
@@ -8,7 +8,7 @@ type WorkoutStore = {
   isWorkoutCompleted: boolean;
   initializeWorkout: (
     workoutStepsTemplate: Workout[],
-    goals: (number | null)[]
+    goals: ExerciseGoal[]
   ) => void;
   addDetailToCurrentStep: (detail: {
     numberOfReps: number;
@@ -26,9 +26,11 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
   isWorkoutCompleted: false,
 
   initializeWorkout: (workoutStepsTemplate, goals) => {
+    const goalsInSeconds = goals.map((goal) => goal.goalValueInSeconds);
+
     const initialized = workoutStepsTemplate.map((step, index) => ({
       ...step,
-      goalValueInSeconds: goals[index] ?? null,
+      goalValueInSeconds: goalsInSeconds[index] ?? null,
       timeUsedInSeconds: null,
       details: [],
     }));

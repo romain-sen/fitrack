@@ -1,11 +1,12 @@
-interface ExerciseInput {
-  unit: "km/h" | "rep/min";
-  goalValue: number;
-  taskAmount: number;
+import { ExerciseGoal } from "../types/ExerciseGoal";
+
+interface ExerciseGoalCalculation extends ExerciseGoal {
   transitionTimeSec: number;
 }
 
-export const calculateTotalGoalTime = (exercises: ExerciseInput[]): number => {
+export const calculateTotalGoalTime = (
+  exercises: ExerciseGoalCalculation[]
+): number => {
   let totalTimeMin = 0;
 
   for (let i = 0; i < exercises.length; i++) {
@@ -13,8 +14,8 @@ export const calculateTotalGoalTime = (exercises: ExerciseInput[]): number => {
 
     const exerciseTimeMin =
       exercise.unit === "km/h"
-        ? (exercise.taskAmount / exercise.goalValue) * 60
-        : exercise.taskAmount / exercise.goalValue;
+        ? (exercise.taskAmount / exercise.goalValueInSeconds) * 60
+        : exercise.taskAmount / exercise.goalValueInSeconds;
 
     totalTimeMin += exerciseTimeMin;
 

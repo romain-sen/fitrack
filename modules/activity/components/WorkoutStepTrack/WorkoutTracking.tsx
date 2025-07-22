@@ -1,4 +1,5 @@
 import { XStack } from "@/components/ui/XStack";
+import { useGoalsValue } from "@/modules/goal/states/goalsAtom";
 import { useWorkoutStore } from "@/stores/useWorkoutStore";
 import { useEffect } from "react";
 import { Button, Text, View } from "react-native";
@@ -13,8 +14,9 @@ export const WorkoutTracking = ({
   timeInSeconds,
   finishWorkout,
 }: WorkoutTrackingProps) => {
+  const goals = useGoalsValue();
+
   const workoutStepsTemplate = MURPH_WORKOUT_TEMPLATE;
-  const goals = [600, 300, 500, 600, 700];
   const currentStep = useWorkoutStore.getState().currentStepIndex;
   const isWorkoutCompleted = useWorkoutStore.getState().isWorkoutCompleted;
   const workoutSteps = useWorkoutStore.getState().workoutSteps;

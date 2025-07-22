@@ -1,9 +1,9 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { DEFAULT_TRANSITION_TIME_IN_SEC } from "../constants/defaultTransitionTime";
 import { INITIAL_EXERCISE_TIME_GOAL } from "../constants/initialExerciseTimeGoal";
-import { Exercise } from "../types/Exercise";
+import { ExerciseGoal } from "../types/ExerciseGoal";
 
-export const goalsAtom = atom<Exercise[]>(INITIAL_EXERCISE_TIME_GOAL);
+export const goalsAtom = atom<ExerciseGoal[]>(INITIAL_EXERCISE_TIME_GOAL);
 
 export const transitionTimeAtom = atom<number>(DEFAULT_TRANSITION_TIME_IN_SEC);
 
