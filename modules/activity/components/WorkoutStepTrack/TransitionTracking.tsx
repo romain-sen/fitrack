@@ -1,31 +1,22 @@
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { Button, Text, View } from "react-native";
 import { useChronometer } from "../../hooks/useChronometer";
-import { Exercise } from "../../types/Exercise";
 
-interface ExerciseTrackingProps {
-  exercise: Exercise;
+interface TransitionTrackingProps {
   markAsDone: () => void;
 }
 
-export const ExerciseTracking = ({
-  exercise,
-  markAsDone,
-}: ExerciseTrackingProps) => {
+export const TransitionTracking = ({ markAsDone }: TransitionTrackingProps) => {
   const { countdown, timeInSeconds } = useChronometer({
-    countdownInSeconds: exercise.goalValueInSeconds ?? 0,
-    speedFactor: 10,
+    countdownInSeconds: 0,
+    speedFactor: 2,
   });
 
   return (
     <View className="bg-green-500 p-5xl rounded-xl">
-      <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
+      <Text className="text-text text-4xl font-semibold ">{"Transition"}</Text>
       <Text className="text-text text-lg">{"Time left"}</Text>
-      <Text
-        className={`text-text text-4xl font-semibold ${
-          !countdown ? "text-red" : "text-text"
-        }`}
-      >
+      <Text className="text-text text-4xl font-semibold ">
         {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
       </Text>
       <Button onPress={markAsDone} title="Mark as done" />

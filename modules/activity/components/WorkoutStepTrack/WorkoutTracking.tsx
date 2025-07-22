@@ -3,10 +3,11 @@ import { XStack } from "@/components/ui/XStack";
 import { YStack } from "@/components/ui/YStack";
 import { useGoalsValue } from "@/modules/goal/states/goalsAtom";
 import { useWorkoutStore } from "@/stores/useWorkoutStore";
-import { useEffect } from "react";
-import { Button, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import { MURPH_WORKOUT_TEMPLATE } from "../../constants/murphWorkoutTemplate";
 import { ExerciseTracking } from "./ExerciseTracking";
+import { TransitionTracking } from "./TransitionTracking";
 
 interface WorkoutTrackingProps {
   timeInSeconds: number;
@@ -24,6 +25,8 @@ export const WorkoutTracking = ({
   const isWorkoutCompleted = useWorkoutStore.getState().isWorkoutCompleted;
   const workoutSteps = useWorkoutStore.getState().workoutSteps;
 
+  const [showTransitionScreen, setShowTransitionScreen] = useState(false);
+
   useEffect(() => {
     useWorkoutStore.getState().initializeWorkout(workoutStepsTemplate, goals);
   }, []);
@@ -37,7 +40,12 @@ export const WorkoutTracking = ({
 
   const markExerciseAsDone = () => {
     useWorkoutStore.getState().finalizeCurrentStep(timeInSeconds);
-    useWorkoutStore.getState().goToNextStep();
+    setShowTransitionScreen(true);
+  };
+
+  const markTransitionAsDone = () => {
+    setShowTransitionScreen(false);
+    useWorkoutStore.getState().startNextStep(timeInSeconds);
   };
 
   if (!workoutSteps || workoutSteps.length === 0) {
@@ -46,10 +54,14 @@ export const WorkoutTracking = ({
 
   return (
     <YStack className="gap-5xl">
-      <ExerciseTracking
-        exercise={workoutSteps[currentStep]}
-        markAsDone={markExerciseAsDone}
-      />
+      {showTransitionScreen ? (
+        <TransitionTracking markAsDone={markTransitionAsDone} />
+      ) : (
+        <ExerciseTracking
+          exercise={workoutSteps[currentStep]}
+          markAsDone={markExerciseAsDone}
+        />
+      )}
       <View className="w-1/2 mx-auto mt-xl ">
         {workoutSteps.map((step, index) => (
           <XStack
@@ -59,20 +71,13 @@ export const WorkoutTracking = ({
             }`}
           >
             <Text>{step.name}</Text>
-            <Text>{step.timeUsedInSeconds ?? "0"}</Text>
+            <Text>{step.endTimestamp ?? "0"}</Text>
           </XStack>
         ))}
       </View>
       {isWorkoutCompleted && (
         <Text className="text-center text-accent">Workout completed</Text>
       )}
-      <Button
-        title="Next Step"
-        onPress={() => {
-          useWorkoutStore.getState().finalizeCurrentStep(timeInSeconds);
-          useWorkoutStore.getState().goToNextStep();
-        }}
-      />
     </YStack>
   );
 };

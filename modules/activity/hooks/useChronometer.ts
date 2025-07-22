@@ -27,7 +27,13 @@ export const useChronometer = ({
 
   // Countdown
   useEffect(() => {
-    console.log("countdownInSeconds", countdownInSeconds);
+    if (countdownInSeconds === 0) {
+      // Start chronometer immediately if countdown is 0
+      setRunning(true);
+      setCountdown(null);
+      return;
+    }
+
     if (countdownRef.current !== null && countdownRef.current > 0) {
       countdownTimerRef.current = setInterval(() => {
         if (countdownRef.current !== null) {

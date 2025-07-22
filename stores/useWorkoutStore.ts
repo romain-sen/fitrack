@@ -6,16 +6,22 @@ type WorkoutStore = {
   workoutSteps: Exercise[];
   currentStepIndex: number;
   isWorkoutCompleted: boolean;
+
   initializeWorkout: (
     workoutStepsTemplate: Exercise[],
     goals: ExerciseGoal[]
   ) => void;
+
   addDetailToCurrentStep: (detail: {
     numberOfReps: number;
     timeUsedInSeconds: number;
   }) => void;
-  finalizeCurrentStep: (timeInSeconds?: number) => void;
-  goToNextStep: () => void;
+
+  startCurrentStep: (timestamp: number) => void;
+  finalizeCurrentStep: (timestamp: number) => void;
+
+  startNextStep: (timestamp: number) => void;
+
   markWorkoutCompleted: () => void;
   resetWorkout: () => void;
 };
@@ -31,7 +37,8 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
     const initialized = workoutStepsTemplate.map((step, index) => ({
       ...step,
       goalValueInSeconds: goalsInSeconds[index] ?? null,
-      timeUsedInSeconds: null,
+      startTimestamp: null,
+      endTimestamp: null,
       details: [],
     }));
 
@@ -52,34 +59,53 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
     set({ workoutSteps: updatedSteps });
   },
 
-  finalizeCurrentStep: (timeInSeconds?: number) => {
+  startCurrentStep: (timestamp) => {
     const { workoutSteps, currentStepIndex } = get();
     const updatedSteps = [...workoutSteps];
     const current = updatedSteps[currentStepIndex];
     if (!current) return;
 
-    if (typeof timeInSeconds === "number") {
-      current.timeUsedInSeconds = timeInSeconds;
-    } else {
-      const totalTime = current.details.reduce(
-        (sum, detail) => sum + detail.timeUsedInSeconds,
-        0
-      );
-      current.timeUsedInSeconds = totalTime;
-    }
+    current.startTimestamp = timestamp;
+    current.endTimestamp = null;
+    current.details = [];
 
     set({ workoutSteps: updatedSteps });
   },
 
-  goToNextStep: () => {
+  finalizeCurrentStep: (timestamp) => {
+    const { workoutSteps, currentStepIndex } = get();
+    const updatedSteps = [...workoutSteps];
+    const current = updatedSteps[currentStepIndex];
+    if (!current) return;
+
+    current.endTimestamp = timestamp;
+
+    set({ workoutSteps: updatedSteps });
+  },
+
+  startNextStep: (timestamp) => {
     const { currentStepIndex, workoutSteps } = get();
     const isLastStep = currentStepIndex >= workoutSteps.length - 1;
 
-    if (!isLastStep) {
-      set({ currentStepIndex: currentStepIndex + 1 });
-    } else {
+    if (isLastStep) {
       get().markWorkoutCompleted();
+      return;
     }
+
+    const nextIndex = currentStepIndex + 1;
+    const updatedSteps = [...workoutSteps];
+    const nextStep = updatedSteps[nextIndex];
+
+    if (nextStep) {
+      nextStep.startTimestamp = timestamp;
+      nextStep.endTimestamp = null;
+      nextStep.details = [];
+    }
+
+    set({
+      workoutSteps: updatedSteps,
+      currentStepIndex: nextIndex,
+    });
   },
 
   markWorkoutCompleted: () => {
