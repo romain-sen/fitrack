@@ -77,7 +77,7 @@ export const ActivityHeader = () => {
 
                 <TouchableOpacity
                   onPress={confirmExit}
-                  className="flex-1 px-4 py-3 rounded-lg bg-red-500"
+                  className="flex-1 px-4 py-3 rounded-lg bg-red"
                 >
                   <Text className="text-center text-white font-medium">
                     Leave

@@ -1,13 +1,13 @@
-import { Workout } from "@/modules/activity/types/Workout";
+import { Exercise } from "@/modules/activity/types/Exercise";
 import { ExerciseGoal } from "@/modules/goal/types/ExerciseGoal";
 import { create } from "zustand";
 
 type WorkoutStore = {
-  workoutSteps: Workout[];
+  workoutSteps: Exercise[];
   currentStepIndex: number;
   isWorkoutCompleted: boolean;
   initializeWorkout: (
-    workoutStepsTemplate: Workout[],
+    workoutStepsTemplate: Exercise[],
     goals: ExerciseGoal[]
   ) => void;
   addDetailToCurrentStep: (detail: {

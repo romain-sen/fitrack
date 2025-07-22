@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { formatTimeFromSecondsToHHMMSS } from "@/utils/formatTime";
 import { Text, View } from "react-native";
 import { useChronometer } from "../hooks/useChronometer";
-import { Chronometer } from "./Chronometer";
-import { Countdown } from "./Countdown";
 import { StopResetButton } from "./StopResetButton";
 import { WorkoutTracking } from "./WorkoutStepTrack/WorkoutTracking";
 
+const COUNTDOWN_TIME_BEFORE_START = 3;
+
 export const ActivityScreenContent = () => {
-  const [timeInSeconds, setTimeInSeconds] = useState(0);
-  const { countdown, running, resetChronometerAndCountdown, pauseChronometer } =
-    useChronometer();
+  const { countdown, running, resetChronometerAndCountdown, timeInSeconds } =
+    useChronometer({
+      countdownInSeconds: COUNTDOWN_TIME_BEFORE_START,
+      speedFactor: 2,
+    });
 
   const finishWorkout = () => {
     // pauseChronometer();
@@ -18,7 +20,16 @@ export const ActivityScreenContent = () => {
   };
 
   if (countdown !== null && countdown > 0) {
-    return <Countdown countdown={countdown} />;
+    return (
+      <View className="flex-1 bg-background justify-center items-center">
+        <View className="items-center">
+          <Text className="text-6xl font-bold text-accent mb-4">
+            {countdown}
+          </Text>
+          <Text className="text-lg text-text">Get ready!</Text>
+        </View>
+      </View>
+    );
   }
 
   if (!running) {
@@ -31,11 +42,11 @@ export const ActivityScreenContent = () => {
 
   return (
     <View className="flex-1 bg-background py-xl px-lg">
-      <Chronometer
-        running={running}
-        timeInSeconds={timeInSeconds}
-        setTimeInSeconds={setTimeInSeconds}
-      />
+      <View className="items-center">
+        <Text className="text-4xl font-mono text-text">
+          {formatTimeFromSecondsToHHMMSS(timeInSeconds)}
+        </Text>
+      </View>
       <WorkoutTracking
         timeInSeconds={timeInSeconds}
         finishWorkout={finishWorkout}

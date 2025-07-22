@@ -1,6 +1,9 @@
 import { Text, View } from "react-native";
 import { useGoals, useTransitionTime } from "../states/goalsAtom";
-import { calculateTotalGoalTime } from "../util/calculateTotalTime";
+import {
+  calculateExerciseTimeInSeconds,
+  calculateTotalGoalTime,
+} from "../util/calculateTotalTime";
 import { formatMinutes } from "../util/formatMinutes";
 import { ExerciseRow } from "./ExerciseRow";
 
@@ -15,16 +18,17 @@ export const TimeGoalDetailed = () => {
     }))
   );
 
-  const updateValue = (index: number, delta: number) => {
+  const updateGoalValue = (index: number, delta: number) => {
     setExercises((prev) =>
       prev.map((ex, i) =>
         i === index
           ? {
               ...ex,
-              goalValueInSeconds: Math.max(
-                ex.minValueInSeconds,
-                Math.round((ex.goalValueInSeconds + delta) * 10) / 10
+              goalValueInUnit: Math.max(
+                ex.minValueInUnit,
+                Math.round((ex.goalValueInUnit + delta) * 10) / 10
               ),
+              goalValueInSeconds: calculateExerciseTimeInSeconds(ex),
             }
           : ex
       )
@@ -48,10 +52,10 @@ export const TimeGoalDetailed = () => {
             key={index}
             index={index}
             label={ex.label}
-            value={ex.goalValueInSeconds}
+            value={ex.goalValueInUnit}
             unit={ex.unit}
-            onIncrement={() => updateValue(index, ex.adjustingStep)}
-            onDecrement={() => updateValue(index, -ex.adjustingStep)}
+            onIncrement={() => updateGoalValue(index, ex.adjustingStep)}
+            onDecrement={() => updateGoalValue(index, -ex.adjustingStep)}
           />
         ))}
       </View>

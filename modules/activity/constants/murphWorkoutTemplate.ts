@@ -1,6 +1,6 @@
-import { Workout } from "../types/Workout";
+import { Exercise } from "../types/Exercise";
 
-export const MURPH_WORKOUT_TEMPLATE: Workout[] = [
+export const MURPH_WORKOUT_TEMPLATE: Exercise[] = [
   {
     name: "Running 1",
     unit: "km",
