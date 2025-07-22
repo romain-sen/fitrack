@@ -1,6 +1,6 @@
 interface ExerciseInput {
   unit: "km/h" | "rep/min";
-  value: number;
+  goalValue: number;
   taskAmount: number;
   transitionTimeSec: number;
 }
@@ -13,8 +13,8 @@ export const calculateTotalGoalTime = (exercises: ExerciseInput[]): number => {
 
     const exerciseTimeMin =
       exercise.unit === "km/h"
-        ? (exercise.taskAmount / exercise.value) * 60
-        : exercise.taskAmount / exercise.value;
+        ? (exercise.taskAmount / exercise.goalValue) * 60
+        : exercise.taskAmount / exercise.goalValue;
 
     totalTimeMin += exerciseTimeMin;
 

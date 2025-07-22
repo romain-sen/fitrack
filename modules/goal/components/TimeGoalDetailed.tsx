@@ -1,16 +1,12 @@
-import { useState } from "react";
 import { Text, View } from "react-native";
-import { DEFAULT_TRANSITION_TIME_IN_SEC } from "../constants/defaultTransitionTime";
-import { INITIAL_EXERCISE_TIME_GOAL } from "../constants/initialExerciseTimeGoal";
+import { useGoals, useTransitionTime } from "../states/goalsAtom";
 import { calculateTotalGoalTime } from "../util/calculateTotalTime";
 import { formatMinutes } from "../util/formatMinutes";
 import { ExerciseRow } from "./ExerciseRow";
 
 export const TimeGoalDetailed = () => {
-  const [exercises, setExercises] = useState(INITIAL_EXERCISE_TIME_GOAL);
-  const [transitionTime, setTransitionTime] = useState(
-    DEFAULT_TRANSITION_TIME_IN_SEC
-  );
+  const [exercises, setExercises] = useGoals();
+  const [transitionTime, setTransitionTime] = useTransitionTime();
 
   const totalTimeInMinutes = calculateTotalGoalTime(
     exercises.map((ex) => ({
