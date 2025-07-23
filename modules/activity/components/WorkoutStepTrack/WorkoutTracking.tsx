@@ -53,7 +53,7 @@ export const WorkoutTracking = ({
   }
 
   return (
-    <YStack className="gap-5xl">
+    <YStack className="bg-slate-200 flex-1">
       {showTransitionScreen ? (
         <TransitionTracking markAsDone={markTransitionAsDone} />
       ) : (
@@ -62,7 +62,7 @@ export const WorkoutTracking = ({
           markAsDone={markExerciseAsDone}
         />
       )}
-      <View className="w-1/2 mx-auto mt-xl ">
+      <View className="w-1/2 mx-auto bg-blue-300 ">
         {workoutSteps.map((step, index) => (
           <XStack
             key={step.name}

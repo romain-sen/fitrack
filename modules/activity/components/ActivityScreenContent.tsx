@@ -1,7 +1,7 @@
+import { YStack } from "@/components/ui/YStack";
 import { formatTimeFromSecondsToHHMMSS } from "@/utils/formatTime";
 import { Text, View } from "react-native";
 import { useChronometer } from "../hooks/useChronometer";
-import { StopResetButton } from "./StopResetButton";
 import { WorkoutTracking } from "./WorkoutStepTrack/WorkoutTracking";
 
 const COUNTDOWN_TIME_BEFORE_START = 3;
@@ -41,7 +41,7 @@ export const ActivityScreenContent = () => {
   }
 
   return (
-    <View className="flex-1 bg-background py-xl px-lg">
+    <YStack className="flex-1 bg-yellow-600 py-xl px-lg">
       <View className="items-center">
         <Text className="text-4xl font-mono text-text">
           {formatTimeFromSecondsToHHMMSS(timeInSeconds)}
@@ -51,9 +51,6 @@ export const ActivityScreenContent = () => {
         timeInSeconds={timeInSeconds}
         finishWorkout={finishWorkout}
       />
-      <View className="mt-auto">
-        <StopResetButton onPress={resetChronometerAndCountdown} />
-      </View>
-    </View>
+    </YStack>
   );
 };
