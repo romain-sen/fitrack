@@ -4,7 +4,7 @@ export const themes = {
   light: vars({
     "--color-primary": "#111111", // Presque noir (texte fort)
     "--color-primary-light": "#333333", // Texte secondaire
-    "--color-background": "#FAFAFA", // Fond légèrement gris
+    "--color-background": "#FFFFFF", // Fond blanc
     "--color-surface": "#FFFFFF", // Cartes ou éléments flottants
     "--color-text": "#111111", // Texte principal
     "--color-muted": "#888888", // Texte secondaire, désactivé

@@ -23,8 +23,8 @@ export const ExerciseTracking = ({
   return (
     <View className="p-5xl flex-1 items-center bg-background">
       <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
-      <YStack className="w-1/2 mt-xl flex-1 justify-center">
-        <Text className="mx-5xl text-text text-lg mt">{"Time left"}</Text>
+      <YStack className="w-1/2 mt-xl flex-1 justify-center gap-md">
+        <Text className="mx-auto text-text text-lg mt">{"Time left"}</Text>
         <MonoText>
           {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
         </MonoText>

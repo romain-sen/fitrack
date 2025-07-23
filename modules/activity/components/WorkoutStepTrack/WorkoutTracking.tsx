@@ -1,13 +1,12 @@
 import { Spinner } from "@/components/ui/Spinner";
-import { XStack } from "@/components/ui/XStack";
 import { YStack } from "@/components/ui/YStack";
 import { useGoalsValue } from "@/modules/goal/states/goalsAtom";
 import { useWorkoutStore } from "@/stores/useWorkoutStore";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
 import { MURPH_WORKOUT_TEMPLATE } from "../../constants/murphWorkoutTemplate";
 import { ExerciseTracking } from "./ExerciseTracking";
 import { TransitionTracking } from "./TransitionTracking";
+import { WorkoutSummaryTimeline } from "./WorkoutSummaryTimeline";
 
 interface WorkoutTrackingProps {
   timeInSeconds: number;
@@ -62,22 +61,7 @@ export const WorkoutTracking = ({
           markAsDone={markExerciseAsDone}
         />
       )}
-      <View className="w-1/2 mx-auto bg-blue-300 ">
-        {workoutSteps.map((step, index) => (
-          <XStack
-            key={step.name}
-            className={`justify-between ${
-              index === currentStep ? "bg-accent" : ""
-            }`}
-          >
-            <Text>{step.name}</Text>
-            <Text>{step.endTimestamp ?? "0"}</Text>
-          </XStack>
-        ))}
-      </View>
-      {isWorkoutCompleted && (
-        <Text className="text-center text-accent">Workout completed</Text>
-      )}
+      <WorkoutSummaryTimeline />
     </YStack>
   );
 };
