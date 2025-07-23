@@ -2,34 +2,68 @@ import { XStack } from "@/components/ui/XStack";
 import { useWorkoutStore } from "@/stores/useWorkoutStore";
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { parseWorkoutTimeline } from "../../utils/parseWorkoutTimeline";
+
+const TIME_BEFORE_AUTO_SCROLL = 2000;
 
 export const WorkoutSummaryTimeline = () => {
   const steps = useWorkoutStore((s) => s.workoutSteps);
   const currentStepIndex = useWorkoutStore((s) => s.currentStepIndex);
   const scrollViewRef = useRef<ScrollView>(null);
+  const autoScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
   const timelineSteps = parseWorkoutTimeline(steps, currentStepIndex);
 
-  // Auto-scroll to current step
-  useEffect(() => {
-    const currentIndex = timelineSteps.findIndex(
-      (step) => step.isCurrentExercise || step.isCurrentTransition
-    );
+  const handleScrollBeginDrag = () => {
+    setIsUserScrolling(true);
+    setShouldAutoScroll(false);
 
-    if (currentIndex !== -1 && scrollViewRef.current) {
-      // Calculate approximate position (adjust multiplier based on your row heights)
-      const estimatedRowHeight = 45; // Approximate height of TimelineRow + TransitionRow
-      const scrollToY = Math.max(0, currentIndex * estimatedRowHeight);
-
-      scrollViewRef.current.scrollTo({
-        y: scrollToY,
-        animated: true,
-      });
+    // Clear any existing timeout
+    if (autoScrollTimeoutRef.current) {
+      clearTimeout(autoScrollTimeoutRef.current);
+      autoScrollTimeoutRef.current = null;
     }
-  }, [currentStepIndex, timelineSteps]);
+  };
+
+  const handleScrollEndDrag = () => {
+    setIsUserScrolling(false);
+
+    autoScrollTimeoutRef.current = setTimeout(() => {
+      setShouldAutoScroll(true);
+    }, TIME_BEFORE_AUTO_SCROLL) as unknown as NodeJS.Timeout;
+  };
+
+  useEffect(() => {
+    if (scrollViewRef.current && shouldAutoScroll && !isUserScrolling) {
+      const currentItemIndex = timelineSteps.findIndex(
+        (step) => step.isCurrentExercise || step.isCurrentTransition
+      );
+
+      if (currentItemIndex !== -1 && scrollViewRef.current) {
+        const estimatedRowHeight = 45;
+        const scrollToY = Math.max(0, currentItemIndex * estimatedRowHeight);
+
+        scrollViewRef.current.scrollTo({
+          y: scrollToY,
+          animated: true,
+        });
+      }
+    }
+  }, [currentStepIndex, timelineSteps, shouldAutoScroll, isUserScrolling]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (autoScrollTimeoutRef.current) {
+        clearTimeout(autoScrollTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <View className="relative" style={{ maxHeight: 140 }}>
@@ -49,6 +83,8 @@ export const WorkoutSummaryTimeline = () => {
         ref={scrollViewRef}
         className="bg-background"
         showsVerticalScrollIndicator={true}
+        onScrollBeginDrag={handleScrollBeginDrag}
+        onScrollEndDrag={handleScrollEndDrag}
       >
         {/* Leave some space for the top fade */}
         <View className="h-16" />
@@ -91,6 +127,7 @@ interface TimelineRowProps {
   duration: number;
   isCurrent?: boolean;
 }
+
 const TimelineRow = ({
   name,
   duration,
