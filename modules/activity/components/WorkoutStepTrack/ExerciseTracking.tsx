@@ -1,6 +1,8 @@
+import { CTAButton } from "@/components/ui/CTAButton";
+import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
-import { Button, Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { useChronometer } from "../../hooks/useChronometer";
 import { Exercise } from "../../types/Exercise";
 
@@ -19,18 +21,15 @@ export const ExerciseTracking = ({
   });
 
   return (
-    <View className="bg-green-500 p-5xl rounded-xl flex-1 items-center">
+    <View className="p-5xl flex-1 items-center bg-background">
       <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
-      <YStack className="w-1/2 mt-xl bg-teal-300 flex-1  justify-center">
+      <YStack className="w-1/2 mt-xl flex-1 justify-center">
         <Text className="mx-5xl text-text text-lg mt">{"Time left"}</Text>
-        <Text
-          style={{ fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace" }}
-          className="text-text text-4xl font-semibold text-center"
-        >
+        <MonoText>
           {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
-        </Text>
+        </MonoText>
       </YStack>
-      <Button onPress={markAsDone} title="Mark as done" />
+      <CTAButton onPress={markAsDone} title="Mark as done" />
     </View>
   );
 };

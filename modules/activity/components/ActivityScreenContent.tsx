@@ -1,3 +1,4 @@
+import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
 import { formatTimeFromSecondsToHHMMSS } from "@/utils/formatTime";
 import { Text, View } from "react-native";
@@ -14,16 +15,15 @@ export const ActivityScreenContent = () => {
     });
 
   const finishWorkout = () => {
-    // pauseChronometer();
     console.log("Workout finished");
-    // TODO : redirect to results screen
+    // TODO: redirect to results screen
   };
 
   if (countdown !== null && countdown > 0) {
     return (
       <View className="flex-1 bg-background justify-center items-center">
         <View className="items-center">
-          <Text className="text-6xl font-bold text-accent mb-4">
+          <Text className="text-6xl font-bold text-accent mb-xl">
             {countdown}
           </Text>
           <Text className="text-lg text-text">Get ready!</Text>
@@ -34,19 +34,20 @@ export const ActivityScreenContent = () => {
 
   if (!running) {
     return (
-      <View className="flex-1 bg-background py-xl px-lg">
+      <View className="flex-1 bg-background py-xl px-lg justify-center items-center">
         <Text className="text-lg text-text">Loading...</Text>
       </View>
     );
   }
 
   return (
-    <YStack className="flex-1 bg-yellow-600 py-xl px-lg">
+    <YStack className="flex-1 bg-background py-xl px-lg space-y-3xl">
       <View className="items-center">
-        <Text className="text-4xl font-mono text-text">
+        <MonoText className="text-4xl text-text">
           {formatTimeFromSecondsToHHMMSS(timeInSeconds)}
-        </Text>
+        </MonoText>
       </View>
+
       <WorkoutTracking
         timeInSeconds={timeInSeconds}
         finishWorkout={finishWorkout}

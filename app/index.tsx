@@ -1,4 +1,5 @@
 import ThemeToggle from "@/components/ThemeToggle";
+import { CTAButton } from "@/components/ui/CTAButton";
 import { TimeGoalDetailed } from "@/modules/goal/components/TimeGoalDetailed";
 import { useRouter } from "expo-router";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
@@ -14,19 +15,11 @@ export default function App() {
         <ThemeToggle />
       </View>
 
-      {/* Contenu principal */}
       <View className="flex-1 justify-center items-center gap-md px-md">
-        {/* Bouton principal avec orange vif */}
-        <TouchableOpacity
-          onPress={() => router.push("/activity")}
-          className="bg-accent px-md py rounded-lg shadow-md"
-        >
-          <Text className="text-background text-xl font-bold">Start</Text>
-        </TouchableOpacity>
+        <CTAButton onPress={() => router.push("/activity")} title="Start" />
 
         <TimeGoalDetailed />
 
-        {/* Bouton secondaire, bordure orange clair */}
         <TouchableOpacity className="border border-accent-light px-md py-sm rounded-md">
           <Text className="text-text text-base font-medium">
             Previous score
