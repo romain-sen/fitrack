@@ -3,12 +3,13 @@ import { useWorkoutStore } from "@/stores/useWorkoutStore";
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, useColorScheme, View } from "react-native";
 import { parseWorkoutTimeline } from "../../utils/parseWorkoutTimeline";
 
 const TIME_BEFORE_AUTO_SCROLL = 2000;
 
 export const WorkoutSummaryTimeline = () => {
+  const colorScheme = useColorScheme();
   const steps = useWorkoutStore((s) => s.workoutSteps);
   const currentStepIndex = useWorkoutStore((s) => s.currentStepIndex);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -68,7 +69,11 @@ export const WorkoutSummaryTimeline = () => {
   return (
     <View className="relative" style={{ maxHeight: 140 }}>
       <LinearGradient
-        colors={["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0)"]}
+        colors={
+          colorScheme === "light"
+            ? ["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0)"]
+            : ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"]
+        }
         style={{
           position: "absolute",
           top: 0,
@@ -107,7 +112,11 @@ export const WorkoutSummaryTimeline = () => {
         <View className="h-16" />
       </ScrollView>
       <LinearGradient
-        colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
+        colors={
+          colorScheme === "light"
+            ? ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]
+            : ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 1)"]
+        }
         style={{
           position: "absolute",
           bottom: 0,
