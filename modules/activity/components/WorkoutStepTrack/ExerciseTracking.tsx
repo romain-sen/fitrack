@@ -25,14 +25,14 @@ export const ExerciseTracking = ({
         timeInSeconds={timeInSeconds}
       />
     );
+  } else if (exercise.unit === "rep") {
+    return (
+      <RepetitionExercise
+        exercise={exercise}
+        markAsDone={markAsDone}
+        timeInSeconds={timeInSeconds}
+      />
+    );
   }
-
-  return (
-    <RepetitionExercise
-      exercise={exercise}
-      markAsDone={markAsDone}
-      countdown={countdown}
-      timeInSeconds={timeInSeconds}
-    />
-  );
+  return null;
 };

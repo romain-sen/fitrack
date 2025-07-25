@@ -10,9 +10,14 @@ const monoText = tv({
       md: "text-xl",
       lg: "text-4xl",
     },
+    highlight: {
+      true: "text-accent",
+      false: "",
+    },
   },
   defaultVariants: {
     size: "lg",
+    highlight: false,
   },
 });
 
@@ -20,12 +25,14 @@ interface MonoTextProps extends TextProps {
   children: React.ReactNode;
   className?: string;
   size?: "sm" | "md" | "lg";
+  highlight?: boolean;
 }
 
 export const MonoText: React.FC<MonoTextProps> = ({
   children,
   className = "",
   size,
+  highlight = false,
   ...props
 }) => {
   return (
@@ -42,7 +49,7 @@ export const MonoText: React.FC<MonoTextProps> = ({
               fontWeight: "bold",
             }),
       }}
-      className={monoText({ size, className })}
+      className={monoText({ size, highlight, className })}
     >
       {children}
     </Text>

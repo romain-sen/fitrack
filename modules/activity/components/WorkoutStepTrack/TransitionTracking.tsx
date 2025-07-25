@@ -25,7 +25,7 @@ export const TransitionTracking = ({ markAsDone }: TransitionTrackingProps) => {
         </MonoText>
       </YStack>
 
-      <CTAButton onPress={markAsDone} title="Mark as done" />
+      <CTAButton onPress={markAsDone} title="Mark as done" size="lg" />
     </View>
   );
 };

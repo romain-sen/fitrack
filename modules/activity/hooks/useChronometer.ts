@@ -1,4 +1,4 @@
-import { TIME_SPEED_FACTOR, USE_REAL_TIME } from "@/constants/timeSpeedFactor";
+import { TIME_SPEED_FACTOR } from "@/constants/timeSpeedFactor";
 import { useEffect, useRef, useState } from "react";
 
 interface UseChronometerProps {
@@ -7,7 +7,7 @@ interface UseChronometerProps {
 
 export const useChronometer = ({ countdownInSeconds }: UseChronometerProps) => {
   // If no speed factor, use real time
-  const useRealTime = USE_REAL_TIME ? false : true;
+  const useRealTime = (TIME_SPEED_FACTOR as number) === 1;
 
   const [running, setRunning] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(countdownInSeconds);
