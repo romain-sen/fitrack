@@ -32,7 +32,7 @@ export const calculateExerciseTimeInSeconds = (exercise: ExerciseGoal) => {
   }
 
   if (exercise.unit === "rep/min") {
-    return exercise.taskAmount / exercise.goalValueInUnit;
+    return (exercise.taskAmount / exercise.goalValueInUnit) * 60;
   }
 
   throw new Error("Invalid unit");
