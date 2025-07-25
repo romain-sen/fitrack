@@ -39,6 +39,13 @@ export const WorkoutTracking = ({
 
   const markExerciseAsDone = () => {
     useWorkoutStore.getState().finalizeCurrentStep(timeInSeconds);
+
+    // If did all steps, don't show transition screen and finish workout here
+    if (currentStep === workoutSteps.length - 1) {
+      useWorkoutStore.getState().markWorkoutCompleted();
+      return;
+    }
+
     setShowTransitionScreen(true);
   };
 

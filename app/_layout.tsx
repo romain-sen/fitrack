@@ -16,6 +16,7 @@ export default function RootLayout() {
             header: () => <ActivityHeader />,
           }}
         />
+        <Stack.Screen name="workoutResult" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
   );

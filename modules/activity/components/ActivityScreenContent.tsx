@@ -1,6 +1,7 @@
 import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
 import { formatTimeFromSecondsToHHMMSS } from "@/utils/formatTime";
+import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { useChronometer } from "../hooks/useChronometer";
 import { WorkoutTracking } from "./WorkoutStepTrack/WorkoutTracking";
@@ -8,6 +9,7 @@ import { WorkoutTracking } from "./WorkoutStepTrack/WorkoutTracking";
 const COUNTDOWN_TIME_BEFORE_START = 3;
 
 export const ActivityScreenContent = () => {
+  const router = useRouter();
   const { countdown, running, resetChronometerAndCountdown, timeInSeconds } =
     useChronometer({
       countdownInSeconds: COUNTDOWN_TIME_BEFORE_START,
@@ -15,7 +17,7 @@ export const ActivityScreenContent = () => {
 
   const finishWorkout = () => {
     console.log("Workout finished");
-    // TODO: redirect to results screen
+    router.push("/workoutResult");
   };
 
   if (countdown !== null && countdown > 0) {
