@@ -1,14 +1,21 @@
 import { XStack } from "@/components/ui/XStack";
-import { YStack } from "@/components/ui/YStack";
 import { Ionicons } from "@expo/vector-icons";
-import { Header } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { Modal, Text, TouchableOpacity } from "react-native";
+import {
+  Modal,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const ActivityHeader = () => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
+  const colorScheme = useColorScheme();
+  const insets = useSafeAreaInsets();
 
   const handleBackPress = () => {
     setModalVisible(true);
@@ -25,18 +32,25 @@ export const ActivityHeader = () => {
 
   return (
     <>
-      <Header
-        title="Activity"
-        headerLeft={() => (
-          <TouchableOpacity onPress={handleBackPress} className="px-3 py-2">
-            <Ionicons name="arrow-back" size={24} color="var(--color-text)" />
-          </TouchableOpacity>
-        )}
-      />
+      <View
+        className="bg-background px-4 pb-2"
+        style={{ paddingTop: insets.top }}
+      >
+        <TouchableOpacity
+          onPress={handleBackPress}
+          className="w-10 h-10 rounded-full justify-center items-center"
+        >
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={colorScheme === "dark" ? "#fff" : "#111"}
+          />
+        </TouchableOpacity>
+      </View>
 
       <Modal
         visible={isModalVisible}
-        transparent={true}
+        transparent
         animationType="fade"
         onRequestClose={cancelExit}
       >
@@ -48,7 +62,7 @@ export const ActivityHeader = () => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {}}
-            className="bg-background rounded-xl p-6 m-5 min-w-[280px] shadow-lg"
+            className="bg-surface rounded-xl p-6 m-5 min-w-[280px] shadow-lg"
             style={{
               shadowColor: "#000",
               shadowOffset: { width: 0, height: 2 },
@@ -57,20 +71,20 @@ export const ActivityHeader = () => {
               elevation: 5,
             }}
           >
-            <YStack className="items-center space-y-4">
-              <Text className="text-lg font-semibold text-center text-foreground">
+            <XStack className="flex-col items-center space-y-4">
+              <Text className="text-lg font-semibold text-center text-text">
                 Leave Activity?
               </Text>
-              <Text className="text-sm text-center text-muted-foreground">
+              <Text className="text-sm text-center text-muted">
                 Are you sure you want to leave? Your progress will be lost.
               </Text>
 
               <XStack className="gap-lg mt-4">
                 <TouchableOpacity
                   onPress={cancelExit}
-                  className="flex-1 px-4 py-3 rounded-lg border border-border"
+                  className="flex-1 px-4 py-3 rounded-lg border border-border bg-transparent"
                 >
-                  <Text className="text-center text-foreground font-medium">
+                  <Text className="text-center text-text font-medium">
                     Cancel
                   </Text>
                 </TouchableOpacity>
@@ -84,7 +98,7 @@ export const ActivityHeader = () => {
                   </Text>
                 </TouchableOpacity>
               </XStack>
-            </YStack>
+            </XStack>
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
