@@ -1,10 +1,7 @@
-import { CTAButton } from "@/components/ui/CTAButton";
-import { MonoText } from "@/components/ui/MonoText";
-import { YStack } from "@/components/ui/YStack";
-import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
-import { Text, View } from "react-native";
 import { useChronometer } from "../../hooks/useChronometer";
 import { Exercise } from "../../types/Exercise";
+import { RepetitionExercise } from "./RepetitionExercise";
+import { RunningExercise } from "./RunningExercise";
 
 interface ExerciseTrackingProps {
   exercise: Exercise;
@@ -20,16 +17,23 @@ export const ExerciseTracking = ({
     speedFactor: 10,
   });
 
+  if (exercise.unit === "km") {
+    return (
+      <RunningExercise
+        exercise={exercise}
+        markAsDone={markAsDone}
+        countdown={countdown}
+        timeInSeconds={timeInSeconds}
+      />
+    );
+  }
+
   return (
-    <View className="p-5xl flex-1 items-center bg-background">
-      <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
-      <YStack className="w-1/2 mt-xl flex-1 justify-center gap-md">
-        <Text className="mx-auto text-text text-lg mt">{"Time left"}</Text>
-        <MonoText>
-          {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
-        </MonoText>
-      </YStack>
-      <CTAButton onPress={markAsDone} title="Mark as done" />
-    </View>
+    <RepetitionExercise
+      exercise={exercise}
+      markAsDone={markAsDone}
+      countdown={countdown}
+      timeInSeconds={timeInSeconds}
+    />
   );
 };
