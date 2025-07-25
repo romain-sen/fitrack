@@ -12,7 +12,6 @@ interface TransitionTrackingProps {
 export const TransitionTracking = ({ markAsDone }: TransitionTrackingProps) => {
   const { countdown, timeInSeconds } = useChronometer({
     countdownInSeconds: 0,
-    speedFactor: 2,
   });
 
   return (

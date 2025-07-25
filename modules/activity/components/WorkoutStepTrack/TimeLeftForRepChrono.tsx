@@ -11,7 +11,6 @@ export const TimeLeftForRepChrono = ({
 }: TimeLeftForRepChronoProps) => {
   const { timeInSeconds: timeInSecondsForRepetition } = useChronometer({
     countdownInSeconds: goalValueInSeconds ?? 0,
-    speedFactor: 3,
   });
   return (
     <MonoText size="lg">

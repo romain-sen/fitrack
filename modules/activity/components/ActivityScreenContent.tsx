@@ -11,7 +11,6 @@ export const ActivityScreenContent = () => {
   const { countdown, running, resetChronometerAndCountdown, timeInSeconds } =
     useChronometer({
       countdownInSeconds: COUNTDOWN_TIME_BEFORE_START,
-      speedFactor: 2,
     });
 
   const finishWorkout = () => {

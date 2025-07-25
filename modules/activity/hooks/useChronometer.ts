@@ -1,16 +1,13 @@
+import { TIME_SPEED_FACTOR, USE_REAL_TIME } from "@/constants/timeSpeedFactor";
 import { useEffect, useRef, useState } from "react";
 
 interface UseChronometerProps {
   countdownInSeconds: number;
-  speedFactor?: number; // 1 = normal, 2 = 2x plus rapide
 }
 
-export const useChronometer = ({
-  countdownInSeconds,
-  speedFactor = 1,
-}: UseChronometerProps) => {
+export const useChronometer = ({ countdownInSeconds }: UseChronometerProps) => {
   // If no speed factor, use real time
-  const useRealTime = speedFactor ? false : true;
+  const useRealTime = USE_REAL_TIME ? false : true;
 
   const [running, setRunning] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(countdownInSeconds);
@@ -23,7 +20,7 @@ export const useChronometer = ({
   const countdownTimerRef = useRef<number | null>(null);
   const chronometerIntervalRef = useRef<number | null>(null);
 
-  const TICK_INTERVAL = 1000 / speedFactor;
+  const TICK_INTERVAL = 1000 / TIME_SPEED_FACTOR;
 
   // Countdown
   useEffect(() => {
@@ -53,7 +50,7 @@ export const useChronometer = ({
         clearInterval(countdownTimerRef.current);
       }
     };
-  }, [countdownInSeconds, speedFactor, useRealTime, TICK_INTERVAL]);
+  }, [countdownInSeconds, useRealTime, TICK_INTERVAL]);
 
   // Chronometer
   useEffect(() => {
@@ -83,7 +80,7 @@ export const useChronometer = ({
         clearInterval(chronometerIntervalRef.current);
       }
     };
-  }, [running, useRealTime, speedFactor, TICK_INTERVAL]);
+  }, [running, useRealTime, TICK_INTERVAL]);
 
   const resetChronometerAndCountdown = () => {
     if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);

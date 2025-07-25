@@ -14,7 +14,6 @@ export const ExerciseTracking = ({
 }: ExerciseTrackingProps) => {
   const { countdown, timeInSeconds } = useChronometer({
     countdownInSeconds: exercise.goalValueInSeconds ?? 0,
-    speedFactor: 10,
   });
 
   if (exercise.unit === "km") {
