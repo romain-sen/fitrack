@@ -14,7 +14,7 @@ type WorkoutStore = {
 
   addDetailToCurrentStep: (detail: {
     numberOfReps: number;
-    timeUsedInSeconds: number;
+    endTimestamp: number;
   }) => void;
 
   startCurrentStep: (timestamp: number) => void;

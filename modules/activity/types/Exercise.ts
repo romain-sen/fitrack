@@ -1,6 +1,6 @@
 export type ExerciseDetails = {
   numberOfReps: number;
-  timeUsedInSeconds: number;
+  endTimestamp: number;
 };
 
 export type Exercise = {

@@ -23,7 +23,7 @@ export const RunningExercise = ({
       <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
       <YStack className="w-1/2 mt-xl flex-1 justify-center gap-md">
         <Text className="mx-auto text-text text-lg mt">{"Time left"}</Text>
-        <MonoText>
+        <MonoText size="lg">
           {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
         </MonoText>
       </YStack>

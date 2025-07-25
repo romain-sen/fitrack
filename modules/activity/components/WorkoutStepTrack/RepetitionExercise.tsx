@@ -2,12 +2,36 @@ import { CTAButton } from "@/components/ui/CTAButton";
 import { MonoText } from "@/components/ui/MonoText";
 import { XStack } from "@/components/ui/XStack";
 import { YStack } from "@/components/ui/YStack";
+import { useWorkoutStore } from "@/stores/useWorkoutStore";
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Exercise } from "../../types/Exercise";
+import { TimeLeftForRepChrono } from "./TimeLeftForRepChrono";
 
 const NUMBER_OF_STEPS = 10;
+
+const calculateRestTimeLeftBeforeNextRep = ({
+  previousRepetitionEndTimestampInSec,
+  goalValueInSeconds,
+  totalRepetitionsGoal,
+  currentTimestampInSec,
+}: {
+  previousRepetitionEndTimestampInSec: number;
+  goalValueInSeconds: number;
+  totalRepetitionsGoal: number;
+  currentTimestampInSec: number;
+}) => {
+  const timeForRepetitionInSec = goalValueInSeconds / totalRepetitionsGoal;
+
+  const finishedRepTimestampGoal =
+    previousRepetitionEndTimestampInSec + timeForRepetitionInSec;
+
+  const restTimeLeftBeforeNextRep =
+    finishedRepTimestampGoal - currentTimestampInSec;
+
+  return restTimeLeftBeforeNextRep;
+};
 
 interface RepetitionExerciseProps {
   exercise: Exercise;
@@ -24,9 +48,28 @@ export const RepetitionExercise = ({
 }: RepetitionExerciseProps) => {
   const [repetitionsDone, setRepetitionsDone] = useState(0);
   const totalRepetitionsGoal = exercise.taskAmount;
+  const goalValueInSeconds = exercise.goalValueInSeconds;
+  const startTimestamp = exercise.startTimestamp;
+  const store = useWorkoutStore();
+
+  if (!goalValueInSeconds || !startTimestamp) {
+    throw new Error("Goal value in seconds and start timestamp are required");
+  }
+
+  const restTimeLeftBeforeNextRep = calculateRestTimeLeftBeforeNextRep({
+    previousRepetitionEndTimestampInSec: startTimestamp,
+    goalValueInSeconds,
+    totalRepetitionsGoal,
+    currentTimestampInSec: timeInSeconds,
+  });
 
   const handleRepetitionDone = (numberOfRepetitions: number) => {
     setRepetitionsDone(repetitionsDone + numberOfRepetitions);
+    // Add details to the exercise
+    store.addDetailToCurrentStep({
+      numberOfReps: numberOfRepetitions,
+      endTimestamp: timeInSeconds,
+    });
   };
 
   useEffect(() => {
@@ -39,16 +82,27 @@ export const RepetitionExercise = ({
     <View className="p-5xl flex-1 items-center bg-background">
       <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
       <YStack className="w-full mt-xl flex-1 justify-center gap-5xl">
-        <Text className="mx-auto text-text text-lg mt">{"Time left"}</Text>
-        <MonoText>
-          {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
-        </MonoText>
+        <YStack>
+          <MonoText size="sm">
+            {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
+          </MonoText>
+          <Text className="mx-auto text-text text-lg mt">
+            {"Rest time left"}
+          </Text>
+          <TimeLeftForRepChrono
+            goalValueInSeconds={restTimeLeftBeforeNextRep}
+          />
+        </YStack>
         <XStack className="justify-between">
           {exercise.repetitionIncrement.map((increment) => (
-            <RepetitionIncrementButton
+            <CTAButton
               key={increment}
-              increment={increment}
               onPress={() => handleRepetitionDone(increment)}
+              title={increment.toString()}
+              size="md"
+              variant="outline"
+              square
+              rounded="sm"
             />
           ))}
         </XStack>
@@ -68,25 +122,6 @@ export const RepetitionExercise = ({
       </YStack>
       <CTAButton onPress={markAsDone} title="Mark as done" size="lg" />
     </View>
-  );
-};
-
-const RepetitionIncrementButton = ({
-  increment,
-  onPress,
-}: {
-  increment: number;
-  onPress: () => void;
-}) => {
-  return (
-    <CTAButton
-      onPress={onPress}
-      title={increment.toString()}
-      size="md"
-      variant="outline"
-      square
-      rounded="sm"
-    />
   );
 };
 

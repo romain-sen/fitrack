@@ -43,7 +43,7 @@ export const ActivityScreenContent = () => {
   return (
     <YStack className="flex-1 bg-background py-xl px-lg space-y-3xl">
       <View className="items-center">
-        <MonoText className="text-4xl text-text">
+        <MonoText className="text-4xl text-text" size="lg">
           {formatTimeFromSecondsToHHMMSS(timeInSeconds)}
         </MonoText>
       </View>
