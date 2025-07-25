@@ -35,18 +35,16 @@ export const RepetitionExercise = ({
     }
   }, [repetitionsDone, totalRepetitionsGoal, markAsDone]);
 
-  const repetitionIncrement = [3, 4, 5, 10];
-
   return (
     <View className="p-5xl flex-1 items-center bg-background">
       <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
-      <YStack className="w-full mt-xl flex-1 justify-center gap-md">
+      <YStack className="w-full mt-xl flex-1 justify-center gap-5xl">
         <Text className="mx-auto text-text text-lg mt">{"Time left"}</Text>
         <MonoText>
           {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
         </MonoText>
         <XStack className="justify-between">
-          {repetitionIncrement.map((increment) => (
+          {exercise.repetitionIncrement.map((increment) => (
             <RepetitionIncrementButton
               key={increment}
               increment={increment}
@@ -64,7 +62,7 @@ export const RepetitionExercise = ({
             />
           ))}
         </XStack>
-        <Text className="text-text text-lg mt">
+        <Text className="text-text text-lg mx-auto">
           {repetitionsDone} / {totalRepetitionsGoal}
         </Text>
       </YStack>
