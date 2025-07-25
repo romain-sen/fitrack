@@ -36,17 +36,17 @@ export const TimeGoalDetailed = () => {
   };
 
   return (
-    <View className="w-full ">
-      {/* Total Time Display */}
-      <View className="flex-row justify-between items-center mb-md px-lg">
-        <Text className="text-base font-medium text-text">Time goal</Text>
-        <Text className="text-base text-text">
+    <View className="w-full space-y-lg">
+      {/* Title and total time */}
+      <View className="px-lg">
+        <Text className="text-base font-medium text-muted">Time goal</Text>
+        <Text className="text-2xl font-semibold text-text">
           {formatMinutes(totalTimeInMinutes)}
         </Text>
       </View>
 
-      {/* Exercise Details */}
-      <View className="border border-muted rounded-lg py-md px-lg mb-md space-y-sm bg-surface">
+      {/* Exercise list */}
+      <View className="space-y-md px-lg">
         {exercises.map((ex, index) => (
           <ExerciseRow
             key={index}
@@ -60,8 +60,8 @@ export const TimeGoalDetailed = () => {
         ))}
       </View>
 
-      {/* Transition Display */}
-      <View className="border border-muted rounded-lg py-sm px-md bg-surface">
+      {/* Transition */}
+      <View className="px-lg">
         <ExerciseRow
           index={exercises.length}
           label={"Transition"}

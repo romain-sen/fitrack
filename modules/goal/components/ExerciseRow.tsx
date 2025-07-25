@@ -20,21 +20,24 @@ export const ExerciseRow = ({
   return (
     <View className="flex-row justify-between items-center">
       <Text className="text-base text-text">
-        • {label} : {value}
-        {unit}
+        {label}{" "}
+        <Text className="text-muted">
+          {value}
+          {unit}
+        </Text>
       </Text>
       <XStack className="gap-xs">
         <Pressable
           onPress={onDecrement}
-          className="bg-muted px-sm py-xss rounded-lg items-center justify-center"
+          className="bg-muted/10 px-sm py-xss rounded-md"
         >
-          <Text className="text-lg font-bold text-text text-center">−</Text>
+          <Text className="text-lg font-bold text-text">−</Text>
         </Pressable>
         <Pressable
           onPress={onIncrement}
-          className="bg-muted px-sm py-xxs rounded-lg items-center justify-center"
+          className="bg-muted/10 px-sm py-xxs rounded-md"
         >
-          <Text className="text-lg font-bold text-text text-center">+</Text>
+          <Text className="text-lg font-bold text-text">+</Text>
         </Pressable>
       </XStack>
     </View>
