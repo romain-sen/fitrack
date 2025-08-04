@@ -9,14 +9,10 @@ import { TransitionTracking } from "./TransitionTracking";
 import { WorkoutSummaryTimeline } from "./WorkoutSummaryTimeline";
 
 interface WorkoutTrackingProps {
-  timeInSeconds: number;
   finishWorkout: () => void;
 }
 
-export const WorkoutTracking = ({
-  timeInSeconds,
-  finishWorkout,
-}: WorkoutTrackingProps) => {
+export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
   const goals = useGoalsValue();
 
   const workoutStepsTemplate = MURPH_WORKOUT_TEMPLATE;
@@ -26,19 +22,20 @@ export const WorkoutTracking = ({
 
   const [showTransitionScreen, setShowTransitionScreen] = useState(false);
 
+  const nowTimestamp = new Date().getTime();
+
   useEffect(() => {
     useWorkoutStore.getState().initializeWorkout(workoutStepsTemplate, goals);
   }, []);
 
   useEffect(() => {
     if (isWorkoutCompleted) {
-      console.log("Workout data", useWorkoutStore.getState().workoutSteps);
       finishWorkout();
     }
   }, [isWorkoutCompleted]);
 
   const markExerciseAsDone = () => {
-    useWorkoutStore.getState().finalizeCurrentStep(timeInSeconds);
+    useWorkoutStore.getState().finalizeCurrentStep(nowTimestamp);
 
     // If did all steps, don't show transition screen and finish workout here
     if (currentStep === workoutSteps.length - 1) {
@@ -51,7 +48,7 @@ export const WorkoutTracking = ({
 
   const markTransitionAsDone = () => {
     setShowTransitionScreen(false);
-    useWorkoutStore.getState().startNextStep(timeInSeconds);
+    useWorkoutStore.getState().startNextStep(nowTimestamp);
   };
 
   if (!workoutSteps || workoutSteps.length === 0) {

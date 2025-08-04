@@ -1,6 +1,6 @@
 import { XStack } from "@/components/ui/XStack";
 import { useWorkoutStore } from "@/stores/useWorkoutStore";
-import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
+import { formatTimeFromMsToMMSS } from "@/utils/formatTime";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, useColorScheme, View } from "react-native";
@@ -137,6 +137,13 @@ interface TimelineRowProps {
   isCurrent?: boolean;
 }
 
+/**
+ * Timeline row for an exercise
+ * @param name - The name of the exercise
+ * @param duration - The duration of the exercise in milliseconds
+ * @param isCurrent - Whether the exercise is the current exercise
+ * @returns A timeline row for an exercise
+ */
 const TimelineRow = ({
   name,
   duration,
@@ -150,7 +157,7 @@ const TimelineRow = ({
     >
       <Text className="text-text text-xs font-medium">{name}</Text>
       <Text className="text-text text-xs font-mono">
-        {formatTimeFromSecondsToMMSS(duration)}
+        {formatTimeFromMsToMMSS(duration)}
       </Text>
     </XStack>
   );
@@ -161,6 +168,12 @@ interface TransitionRowProps {
   isCurrent?: boolean;
 }
 
+/**
+ * Timeline row for a transition
+ * @param duration - The duration of the transition in milliseconds
+ * @param isCurrent - Whether the transition is the current transition
+ * @returns A timeline row for a transition
+ */
 const TransitionRow = ({ duration, isCurrent = false }: TransitionRowProps) => (
   <XStack
     className={`justify-between px-md py-xxs rounded-sm ${
@@ -169,7 +182,7 @@ const TransitionRow = ({ duration, isCurrent = false }: TransitionRowProps) => (
   >
     <Text className="text-muted text-xxs italic">Transition</Text>
     <Text className="text-muted text-xxs font-mono italic">
-      {duration !== undefined ? formatTimeFromSecondsToMMSS(duration) : "--:--"}
+      {duration !== undefined ? formatTimeFromMsToMMSS(duration) : "--:--"}
     </Text>
   </XStack>
 );

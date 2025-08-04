@@ -12,37 +12,43 @@ export const parseWorkoutTimeline = (
   steps: Exercise[],
   currentStepIndex: number
 ): ParsedStep[] => {
+  const maxIndex = steps.length - 2;
   return steps.map((step, index) => {
     const isCurrent = index === currentStepIndex;
-    const currentStep = steps[currentStepIndex];
-    const nextStep = steps[currentStepIndex + 1];
 
-    const startTimestamp = step.startTimestamp ?? 0;
-    const endTimestamp = step.endTimestamp ?? 0;
-    const duration = Math.max(endTimestamp - startTimestamp, 0);
+    const start = step.startTimestamp ?? 0;
+    const end = step.endTimestamp ?? 0;
+    const duration = Math.max(end - start, 0);
 
-    const currentEnd = currentStep.endTimestamp ?? 0;
-    const nextStart = nextStep?.startTimestamp ?? null;
+    let transition: number | undefined = undefined;
 
-    const isCurrentStepTransition =
-      currentStep.endTimestamp !== null && !nextStep?.startTimestamp;
+    if (index > maxIndex) {
+      return {
+        name: step.name,
+        duration,
+        transition,
+        isCurrentExercise: isCurrent,
+        isCurrentTransition: false,
+      };
+    }
 
-    const transition =
-      index < steps.length - 1 &&
-      step.endTimestamp !== null &&
-      steps[index + 1]?.startTimestamp !== null
-        ? Math.max(
-            (steps[index + 1].startTimestamp ?? 0) - (step.endTimestamp ?? 0),
-            0
-          )
-        : undefined;
+    const nextStep = steps[index + 1];
+    const currentStepIsDone = step.endTimestamp !== null;
+    const nextStepHasStarted = nextStep.startTimestamp !== null;
+    // It's a transition if the current exercise is done but the next one hasn't started yet
+    const isCurrentTransition = currentStepIsDone && !nextStepHasStarted;
+
+    // currentStepIsDone && nextStepHasStarted
+    if (step.endTimestamp !== null && nextStep.startTimestamp !== null) {
+      transition = Math.max(nextStep.startTimestamp - step.endTimestamp, 0);
+    }
 
     return {
       name: step.name,
       duration,
       transition,
-      isCurrentExercise: isCurrent && !isCurrentStepTransition,
-      isCurrentTransition: isCurrent && isCurrentStepTransition,
+      isCurrentExercise: isCurrent,
+      isCurrentTransition: isCurrentTransition,
     };
   });
 };

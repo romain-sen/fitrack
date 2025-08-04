@@ -1,4 +1,5 @@
 import {
+  formatTimeFromMsToMMSS,
   formatTimeFromSecondsToHHMMSS,
   formatTimeFromSecondsToMMSS,
 } from "../formatTime";
@@ -80,5 +81,35 @@ describe("formatTimeFromSecondsToMMSS", () => {
   it("should handle negative values", () => {
     expect(formatTimeFromSecondsToMMSS(-30)).toBe("00:00");
     expect(formatTimeFromSecondsToMMSS(-90)).toBe("00:00");
+  });
+});
+
+describe("formatTimeFromMsToMMSS", () => {
+  it("should format 0 milliseconds correctly", () => {
+    expect(formatTimeFromMsToMMSS(0)).toBe("00:00");
+  });
+
+  it("should format milliseconds correctly", () => {
+    expect(formatTimeFromMsToMMSS(1000)).toBe("00:01");
+    expect(formatTimeFromMsToMMSS(10000)).toBe("00:10");
+    expect(formatTimeFromMsToMMSS(60000)).toBe("01:00");
+    expect(formatTimeFromMsToMMSS(154000)).toBe("02:34");
+    expect(formatTimeFromMsToMMSS(1000000)).toBe("16:40");
+  });
+
+  it("should handle decimal values by flooring them", () => {
+    expect(formatTimeFromMsToMMSS(1000.7)).toBe("00:01");
+    expect(formatTimeFromMsToMMSS(10000.9)).toBe("00:10");
+    expect(formatTimeFromMsToMMSS(1000000.5)).toBe("16:40");
+  });
+
+  it("should handle negative values", () => {
+    expect(formatTimeFromMsToMMSS(-1000)).toBe("00:00");
+    expect(formatTimeFromMsToMMSS(-10000)).toBe("00:00");
+    expect(formatTimeFromMsToMMSS(-1000000)).toBe("00:00");
+  });
+
+  it("should handle large values", () => {
+    expect(formatTimeFromMsToMMSS(1000000000)).toBe("16666:40");
   });
 });

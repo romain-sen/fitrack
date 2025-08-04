@@ -7,6 +7,12 @@ type WorkoutStore = {
   currentStepIndex: number;
   isWorkoutCompleted: boolean;
 
+  /**
+   * Initialize the workout with the given template and goals
+   * Set the startTimestamp of the first step to the current timestamp
+   * @param workoutStepsTemplate - The template of the workout
+   * @param goals - The goals of the workout
+   */
   initializeWorkout: (
     workoutStepsTemplate: Exercise[],
     goals: ExerciseGoal[]
@@ -17,7 +23,6 @@ type WorkoutStore = {
     endTimestamp: number;
   }) => void;
 
-  startCurrentStep: (timestamp: number) => void;
   finalizeCurrentStep: (timestamp: number) => void;
 
   startNextStep: (timestamp: number) => void;
@@ -33,11 +38,12 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
 
   initializeWorkout: (workoutStepsTemplate, goals) => {
     const goalsInSeconds = goals.map((goal) => goal.goalValueInSeconds);
+    const now = new Date().getTime();
 
     const initialized = workoutStepsTemplate.map((step, index) => ({
       ...step,
       goalValueInSeconds: goalsInSeconds[index] ?? null,
-      startTimestamp: null,
+      startTimestamp: index === 0 ? now : null,
       endTimestamp: null,
       details: [],
     }));
@@ -56,19 +62,6 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
     if (!current) return;
 
     current.details = [...current.details, detail];
-    set({ workoutSteps: updatedSteps });
-  },
-
-  startCurrentStep: (timestamp) => {
-    const { workoutSteps, currentStepIndex } = get();
-    const updatedSteps = [...workoutSteps];
-    const current = updatedSteps[currentStepIndex];
-    if (!current) return;
-
-    current.startTimestamp = timestamp;
-    current.endTimestamp = null;
-    current.details = [];
-
     set({ workoutSteps: updatedSteps });
   },
 

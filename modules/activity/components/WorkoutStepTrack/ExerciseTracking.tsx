@@ -26,13 +26,7 @@ export const ExerciseTracking = ({
       />
     );
   } else if (exercise.unit === "rep") {
-    return (
-      <RepetitionExercise
-        exercise={exercise}
-        markAsDone={markAsDone}
-        timeInSeconds={timeInSeconds}
-      />
-    );
+    return <RepetitionExercise exercise={exercise} markAsDone={markAsDone} />;
   }
   return null;
 };

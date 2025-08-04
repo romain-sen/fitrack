@@ -10,7 +10,7 @@ export type Exercise = {
   repetitionIncrement: number[];
   goalValueInSeconds: number | null;
 
-  startTimestamp: number | null; // timestamp en ms (Date.now())
+  startTimestamp: number | null; // timestamp en ms (Date.now().getTime())
   endTimestamp: number | null;
 
   details: ExerciseDetails[];

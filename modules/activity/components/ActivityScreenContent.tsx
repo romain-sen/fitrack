@@ -10,13 +10,11 @@ const COUNTDOWN_TIME_BEFORE_START = 3;
 
 export const ActivityScreenContent = () => {
   const router = useRouter();
-  const { countdown, running, resetChronometerAndCountdown, timeInSeconds } =
-    useChronometer({
-      countdownInSeconds: COUNTDOWN_TIME_BEFORE_START,
-    });
+  const { countdown, running, timeInSeconds } = useChronometer({
+    countdownInSeconds: COUNTDOWN_TIME_BEFORE_START,
+  });
 
   const finishWorkout = () => {
-    console.log("Workout finished");
     router.push("/workoutResult");
   };
 
@@ -49,10 +47,7 @@ export const ActivityScreenContent = () => {
         </MonoText>
       </View>
 
-      <WorkoutTracking
-        timeInSeconds={timeInSeconds}
-        finishWorkout={finishWorkout}
-      />
+      <WorkoutTracking finishWorkout={finishWorkout} />
     </YStack>
   );
 };

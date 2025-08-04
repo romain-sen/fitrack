@@ -12,13 +12,11 @@ const NUMBER_OF_STEPS = 10;
 interface RepetitionExerciseProps {
   exercise: Exercise;
   markAsDone: () => void;
-  timeInSeconds: number;
 }
 
 export const RepetitionExercise = ({
   exercise,
   markAsDone,
-  timeInSeconds,
 }: RepetitionExerciseProps) => {
   const [repetitionsDone, setRepetitionsDone] = useState(0);
   const totalRepetitionsGoal = exercise.taskAmount;
@@ -42,7 +40,7 @@ export const RepetitionExercise = ({
     // Add details to the exercise
     store.addDetailToCurrentStep({
       numberOfReps: numberOfRepetitions,
-      endTimestamp: timeInSeconds,
+      endTimestamp: new Date().getTime(),
     });
   };
 

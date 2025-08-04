@@ -23,3 +23,8 @@ export const formatTimeFromSecondsToMMSS = (timeInSeconds: number) => {
 
   return `${formattedMinutes}:${formattedSeconds}`;
 };
+
+export const formatTimeFromMsToMMSS = (timeInMs: number) => {
+  const timeInSeconds = Math.floor(timeInMs / 1000);
+  return formatTimeFromSecondsToMMSS(timeInSeconds);
+};
