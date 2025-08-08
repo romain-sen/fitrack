@@ -11,14 +11,22 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export const ActivityHeader = () => {
+interface HeaderProps {
+  showModalOnBackPress?: boolean;
+}
+
+export const Header = ({ showModalOnBackPress = false }: HeaderProps) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
 
   const handleBackPress = () => {
-    setModalVisible(true);
+    if (showModalOnBackPress) {
+      setModalVisible(true);
+    } else {
+      navigation.goBack();
+    }
   };
 
   const confirmExit = () => {

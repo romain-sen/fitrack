@@ -1,4 +1,4 @@
-import { ActivityHeader } from "@/modules/activity/components/ActivityHeader";
+import { Header } from "@/components/layout/Header";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Stack } from "expo-router";
 import "../global.css";
@@ -13,10 +13,18 @@ export default function RootLayout() {
           options={{
             headerShown: true,
             headerTitle: "Activity",
-            header: () => <ActivityHeader />,
+            header: () => <Header showModalOnBackPress />,
           }}
         />
         <Stack.Screen name="workoutResult" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="previousScore"
+          options={{
+            headerShown: true,
+            headerTitle: "Previous Score",
+            header: () => <Header />,
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );

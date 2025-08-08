@@ -68,7 +68,10 @@ export default function App() {
 
         {/* Fixed bottom section for "Previous score" */}
         <View className="px-lg py-md bg-background border-t border-muted/30">
-          <TouchableOpacity onPress={() => {}} className="items-center">
+          <TouchableOpacity
+            onPress={() => router.push("/previousScore")}
+            className="items-center"
+          >
             <Text className="text-base text-accent-light font-medium">
               Previous score
             </Text>

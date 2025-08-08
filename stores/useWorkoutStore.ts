@@ -1,5 +1,8 @@
 import { Exercise } from "@/modules/activity/types/Exercise";
+import { Workout } from "@/modules/activity/types/Workout";
 import { ExerciseGoal } from "@/modules/goal/types/ExerciseGoal";
+import { calculateTotalTransitionTime } from "@/modules/workoutResult/utils/calculateTotalTransitionTime";
+import { addWorkoutToStorage } from "@/utils/storage";
 import { create } from "zustand";
 
 type WorkoutStore = {
@@ -30,6 +33,8 @@ type WorkoutStore = {
 
     markWorkoutCompleted: () => void;
     resetWorkout: () => void;
+
+    saveWorkoutToLocalStorage: () => void;
   };
 };
 
@@ -114,6 +119,25 @@ const useWorkoutStore = create<WorkoutStore>((set, get) => ({
         currentStepIndex: 0,
         isWorkoutCompleted: false,
       });
+    },
+
+    saveWorkoutToLocalStorage: () => {
+      const { workoutSteps } = get();
+      const firstTimestamp = workoutSteps[0]?.startTimestamp;
+      const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
+      if (!firstTimestamp || !lastTimestamp) {
+        throw new Error("First and last timestamps should be defined");
+      }
+      const totalTime = lastTimestamp - firstTimestamp;
+      const totalTransitionTime = calculateTotalTransitionTime(workoutSteps);
+
+      const workout: Workout = {
+        exercises: workoutSteps,
+        dateTimestamp: new Date().getTime(),
+        totalTime: totalTime,
+        totalTransitionTime: totalTransitionTime,
+      };
+      addWorkoutToStorage(workout);
     },
   },
 }));

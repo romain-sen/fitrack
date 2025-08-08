@@ -1,7 +1,11 @@
 import { CTAButton } from "@/components/ui/CTAButton";
 import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
-import { useWorkoutSteps } from "@/stores/useWorkoutStore";
+import { calculateTotalTransitionTime } from "@/modules/workoutResult/utils/calculateTotalTransitionTime";
+import {
+  useWorkoutSteps,
+  useWorkoutStoreActions,
+} from "@/stores/useWorkoutStore";
 import { formatTimeFromMsToMMSS } from "@/utils/formatTime";
 import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
@@ -9,27 +13,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function WorkoutResult() {
   const workoutSteps = useWorkoutSteps();
+  const { saveWorkoutToLocalStorage } = useWorkoutStoreActions();
   const router = useRouter();
 
   const goHome = () => {
+    saveWorkoutToLocalStorage();
     router.replace("/");
-  };
-
-  const calculateTotalTransitionTime = () => {
-    let totalTransitionTime = 0;
-    for (let i = 0; i < workoutSteps.length - 2; i++) {
-      const nextStepStartTimestamp = workoutSteps[i + 1]?.startTimestamp;
-      const currentStepEndTimestamp = workoutSteps[i]?.endTimestamp;
-
-      if (!nextStepStartTimestamp || !currentStepEndTimestamp) {
-        console.log("skipping transition time calculation");
-        continue;
-      }
-
-      const transitionTime = nextStepStartTimestamp - currentStepEndTimestamp;
-      totalTransitionTime += transitionTime;
-    }
-    return totalTransitionTime;
   };
 
   const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
@@ -40,7 +29,7 @@ export default function WorkoutResult() {
   }
 
   const totalTime = lastTimestamp - firstTimestamp;
-  const totalTransitionTime = calculateTotalTransitionTime();
+  const totalTransitionTime = calculateTotalTransitionTime(workoutSteps);
 
   return (
     <SafeAreaView className="flex-1 bg-background">
