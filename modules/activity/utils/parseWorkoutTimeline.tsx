@@ -47,7 +47,7 @@ export const parseWorkoutTimeline = (
       name: step.name,
       duration,
       transition,
-      isCurrentExercise: isCurrent,
+      isCurrentExercise: isCurrent && !isCurrentTransition,
       isCurrentTransition: isCurrentTransition,
     };
   });

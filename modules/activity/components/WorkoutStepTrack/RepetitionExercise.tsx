@@ -1,7 +1,7 @@
 import { CTAButton } from "@/components/ui/CTAButton";
 import { XStack } from "@/components/ui/XStack";
 import { YStack } from "@/components/ui/YStack";
-import { useWorkoutStore } from "@/stores/useWorkoutStore";
+import { useWorkoutStoreActions } from "@/stores/useWorkoutStore";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Exercise } from "../../types/Exercise";
@@ -21,7 +21,7 @@ export const RepetitionExercise = ({
   const [repetitionsDone, setRepetitionsDone] = useState(0);
   const totalRepetitionsGoal = exercise.taskAmount;
   const goalValueInSeconds = exercise.goalValueInSeconds;
-  const store = useWorkoutStore();
+  const { addDetailToCurrentStep } = useWorkoutStoreActions();
 
   // If stepProgress is 0.1, it means we have done 10% of the total repetitions goal
   // If stepProgress is 0.14 we are between step 1 and 2, but we don't highlight step 2
@@ -38,7 +38,7 @@ export const RepetitionExercise = ({
   const handleRepetitionDone = (numberOfRepetitions: number) => {
     setRepetitionsDone(repetitionsDone + numberOfRepetitions);
     // Add details to the exercise
-    store.addDetailToCurrentStep({
+    addDetailToCurrentStep({
       numberOfReps: numberOfRepetitions,
       endTimestamp: new Date().getTime(),
     });

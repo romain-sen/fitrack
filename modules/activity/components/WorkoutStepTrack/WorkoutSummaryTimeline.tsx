@@ -1,5 +1,8 @@
 import { XStack } from "@/components/ui/XStack";
-import { useWorkoutStore } from "@/stores/useWorkoutStore";
+import {
+  useWorkoutCurrentStepIndex,
+  useWorkoutSteps,
+} from "@/stores/useWorkoutStore";
 import { formatTimeFromMsToMMSS } from "@/utils/formatTime";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,8 +13,8 @@ const TIME_BEFORE_AUTO_SCROLL = 2000;
 
 export const WorkoutSummaryTimeline = () => {
   const colorScheme = useColorScheme();
-  const steps = useWorkoutStore((s) => s.workoutSteps);
-  const currentStepIndex = useWorkoutStore((s) => s.currentStepIndex);
+  const steps = useWorkoutSteps();
+  const currentStepIndex = useWorkoutCurrentStepIndex();
   const scrollViewRef = useRef<ScrollView>(null);
   const autoScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 

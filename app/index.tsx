@@ -11,11 +11,22 @@ import {
   View,
 } from "react-native";
 
+import { useWorkoutStoreActions } from "@/stores/useWorkoutStore";
+import { useEffect } from "react";
 // @ts-ignore
-import murphWallpaper from "../assets/images/murph-wallpaper.png";
+import murphWallpaper from "@/assets/images/murph-wallpaper.png";
 
 export default function App() {
+  const { resetWorkout } = useWorkoutStoreActions();
+
   const router = useRouter();
+
+  useEffect(() => {
+    // Reset the workout because when coming from the workoutResult screen
+    // the workout is not reset, workoutCompleted is true and on the next screen
+    // it will immediately end the workout before it can be reset
+    resetWorkout();
+  }, [resetWorkout]);
 
   return (
     <SafeAreaView className="flex-1 bg-background">

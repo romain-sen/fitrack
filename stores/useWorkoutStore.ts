@@ -7,109 +7,133 @@ type WorkoutStore = {
   currentStepIndex: number;
   isWorkoutCompleted: boolean;
 
-  /**
-   * Initialize the workout with the given template and goals
-   * Set the startTimestamp of the first step to the current timestamp
-   * @param workoutStepsTemplate - The template of the workout
-   * @param goals - The goals of the workout
-   */
-  initializeWorkout: (
-    workoutStepsTemplate: Exercise[],
-    goals: ExerciseGoal[]
-  ) => void;
+  actions: {
+    /**
+     * Initialize the workout with the given template and goals
+     * Set the startTimestamp of the first step to the current timestamp
+     * @param workoutStepsTemplate - The template of the workout
+     * @param goals - The goals of the workout
+     */
+    initializeWorkout: (
+      workoutStepsTemplate: Exercise[],
+      goals: ExerciseGoal[]
+    ) => void;
 
-  addDetailToCurrentStep: (detail: {
-    numberOfReps: number;
-    endTimestamp: number;
-  }) => void;
+    addDetailToCurrentStep: (detail: {
+      numberOfReps: number;
+      endTimestamp: number;
+    }) => void;
 
-  finalizeCurrentStep: (timestamp: number) => void;
+    finalizeCurrentStep: (timestamp: number) => void;
 
-  startNextStep: (timestamp: number) => void;
+    startNextStep: (timestamp: number) => void;
 
-  markWorkoutCompleted: () => void;
-  resetWorkout: () => void;
+    markWorkoutCompleted: () => void;
+    resetWorkout: () => void;
+  };
 };
 
-export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
+const useWorkoutStore = create<WorkoutStore>((set, get) => ({
   workoutSteps: [],
   currentStepIndex: 0,
   isWorkoutCompleted: false,
 
-  initializeWorkout: (workoutStepsTemplate, goals) => {
-    const goalsInSeconds = goals.map((goal) => goal.goalValueInSeconds);
-    const now = new Date().getTime();
+  actions: {
+    initializeWorkout: (workoutStepsTemplate, goals) => {
+      const goalsInSeconds = goals.map((goal) => goal.goalValueInSeconds);
+      const now = new Date().getTime();
 
-    const initialized = workoutStepsTemplate.map((step, index) => ({
-      ...step,
-      goalValueInSeconds: goalsInSeconds[index] ?? null,
-      startTimestamp: index === 0 ? now : null,
-      endTimestamp: null,
-      details: [],
-    }));
+      const initialized = workoutStepsTemplate.map((step, index) => ({
+        ...step,
+        goalValueInSeconds: goalsInSeconds[index] ?? null,
+        startTimestamp: index === 0 ? now : null,
+        endTimestamp: null,
+        details: [],
+      }));
 
-    set({
-      workoutSteps: initialized,
-      currentStepIndex: 0,
-      isWorkoutCompleted: false,
-    });
-  },
+      set({
+        workoutSteps: initialized,
+        currentStepIndex: 0,
+        isWorkoutCompleted: false,
+      });
+    },
 
-  addDetailToCurrentStep: (detail) => {
-    const { workoutSteps, currentStepIndex } = get();
-    const updatedSteps = [...workoutSteps];
-    const current = updatedSteps[currentStepIndex];
-    if (!current) return;
+    addDetailToCurrentStep: (detail) => {
+      const { workoutSteps, currentStepIndex } = get();
+      const updatedSteps = [...workoutSteps];
+      const current = updatedSteps[currentStepIndex];
+      if (!current) return;
 
-    current.details = [...current.details, detail];
-    set({ workoutSteps: updatedSteps });
-  },
+      current.details = [...current.details, detail];
+      set({ workoutSteps: updatedSteps });
+    },
 
-  finalizeCurrentStep: (timestamp) => {
-    const { workoutSteps, currentStepIndex } = get();
-    const updatedSteps = [...workoutSteps];
-    const current = updatedSteps[currentStepIndex];
-    if (!current) return;
+    finalizeCurrentStep: (timestamp) => {
+      const { workoutSteps, currentStepIndex } = get();
+      const updatedSteps = [...workoutSteps];
+      const current = updatedSteps[currentStepIndex];
+      if (!current) return;
 
-    current.endTimestamp = timestamp;
+      current.endTimestamp = timestamp;
 
-    set({ workoutSteps: updatedSteps });
-  },
+      set({ workoutSteps: updatedSteps });
+    },
 
-  startNextStep: (timestamp) => {
-    const { currentStepIndex, workoutSteps } = get();
-    const isLastStep = currentStepIndex >= workoutSteps.length - 1;
+    startNextStep: (timestamp) => {
+      const { currentStepIndex, workoutSteps } = get();
+      const isLastStep = currentStepIndex >= workoutSteps.length - 1;
 
-    if (isLastStep) {
-      get().markWorkoutCompleted();
-      return;
-    }
+      if (isLastStep) {
+        get().actions.markWorkoutCompleted();
+        return;
+      }
 
-    const nextIndex = currentStepIndex + 1;
-    const updatedSteps = [...workoutSteps];
-    const nextStep = updatedSteps[nextIndex];
+      const nextIndex = currentStepIndex + 1;
+      const updatedSteps = [...workoutSteps];
+      const nextStep = updatedSteps[nextIndex];
 
-    if (nextStep) {
-      nextStep.startTimestamp = timestamp;
-      nextStep.endTimestamp = null;
-      nextStep.details = [];
-    }
+      if (nextStep) {
+        nextStep.startTimestamp = timestamp;
+        nextStep.endTimestamp = null;
+        nextStep.details = [];
+      }
 
-    set({
-      workoutSteps: updatedSteps,
-      currentStepIndex: nextIndex,
-    });
-  },
+      set({
+        workoutSteps: updatedSteps,
+        currentStepIndex: nextIndex,
+      });
+    },
 
-  markWorkoutCompleted: () => {
-    set({ isWorkoutCompleted: true });
-  },
+    markWorkoutCompleted: () => {
+      set({ isWorkoutCompleted: true });
+    },
 
-  resetWorkout: () => {
-    set({
-      workoutSteps: [],
-      currentStepIndex: 0,
-      isWorkoutCompleted: false,
-    });
+    resetWorkout: () => {
+      set({
+        workoutSteps: [],
+        currentStepIndex: 0,
+        isWorkoutCompleted: false,
+      });
+    },
   },
 }));
+
+export const useWorkoutStoreActions = () => {
+  const { actions } = useWorkoutStore();
+  return actions;
+};
+
+export const useWorkoutSteps = () => {
+  const { workoutSteps } = useWorkoutStore();
+  return workoutSteps;
+};
+
+export const useWorkoutCurrentStepIndex = () => {
+  const { currentStepIndex } = useWorkoutStore();
+  return currentStepIndex;
+};
+
+export const useIsWorkoutCompleted = () => {
+  const { isWorkoutCompleted } = useWorkoutStore();
+  return isWorkoutCompleted;
+};

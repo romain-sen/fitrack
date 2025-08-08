@@ -1,7 +1,12 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { YStack } from "@/components/ui/YStack";
 import { useGoalsValue } from "@/modules/goal/states/goalsAtom";
-import { useWorkoutStore } from "@/stores/useWorkoutStore";
+import {
+  useIsWorkoutCompleted,
+  useWorkoutCurrentStepIndex,
+  useWorkoutSteps,
+  useWorkoutStoreActions,
+} from "@/stores/useWorkoutStore";
 import { useEffect, useState } from "react";
 import { MURPH_WORKOUT_TEMPLATE } from "../../constants/murphWorkoutTemplate";
 import { ExerciseTracking } from "./ExerciseTracking";
@@ -14,19 +19,25 @@ interface WorkoutTrackingProps {
 
 export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
   const goals = useGoalsValue();
+  const {
+    initializeWorkout,
+    finalizeCurrentStep,
+    markWorkoutCompleted,
+    startNextStep,
+  } = useWorkoutStoreActions();
+  const currentStep = useWorkoutCurrentStepIndex();
+  const workoutSteps = useWorkoutSteps();
+  const isWorkoutCompleted = useIsWorkoutCompleted();
 
   const workoutStepsTemplate = MURPH_WORKOUT_TEMPLATE;
-  const currentStep = useWorkoutStore.getState().currentStepIndex;
-  const isWorkoutCompleted = useWorkoutStore.getState().isWorkoutCompleted;
-  const workoutSteps = useWorkoutStore.getState().workoutSteps;
 
   const [showTransitionScreen, setShowTransitionScreen] = useState(false);
 
   const nowTimestamp = new Date().getTime();
 
   useEffect(() => {
-    useWorkoutStore.getState().initializeWorkout(workoutStepsTemplate, goals);
-  }, []);
+    initializeWorkout(workoutStepsTemplate, goals);
+  }, [goals, initializeWorkout, workoutStepsTemplate]);
 
   useEffect(() => {
     if (isWorkoutCompleted) {
@@ -35,11 +46,11 @@ export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
   }, [isWorkoutCompleted]);
 
   const markExerciseAsDone = () => {
-    useWorkoutStore.getState().finalizeCurrentStep(nowTimestamp);
+    finalizeCurrentStep(nowTimestamp);
 
     // If did all steps, don't show transition screen and finish workout here
     if (currentStep === workoutSteps.length - 1) {
-      useWorkoutStore.getState().markWorkoutCompleted();
+      markWorkoutCompleted();
       return;
     }
 
@@ -48,7 +59,7 @@ export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
 
   const markTransitionAsDone = () => {
     setShowTransitionScreen(false);
-    useWorkoutStore.getState().startNextStep(nowTimestamp);
+    startNextStep(nowTimestamp);
   };
 
   if (!workoutSteps || workoutSteps.length === 0) {

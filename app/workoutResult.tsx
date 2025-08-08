@@ -1,17 +1,17 @@
 import { CTAButton } from "@/components/ui/CTAButton";
 import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
-import { useWorkoutStore } from "@/stores/useWorkoutStore";
+import { useWorkoutSteps } from "@/stores/useWorkoutStore";
 import { formatTimeFromMsToMMSS } from "@/utils/formatTime";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function WorkoutResult() {
-  const { workoutSteps, resetWorkout } = useWorkoutStore();
+  const workoutSteps = useWorkoutSteps();
+  const router = useRouter();
 
   const goHome = () => {
-    resetWorkout();
     router.replace("/");
   };
 
@@ -35,6 +35,7 @@ export default function WorkoutResult() {
   const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
   const firstTimestamp = workoutSteps[0]?.startTimestamp;
   if (!firstTimestamp || !lastTimestamp) {
+    console.log("workoutSteps", workoutSteps);
     throw new Error("First and last timestamps should be defined");
   }
 
