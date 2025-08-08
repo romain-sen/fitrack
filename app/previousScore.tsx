@@ -2,7 +2,7 @@ import { YStack } from "@/components/ui/YStack";
 import { Workout } from "@/modules/activity/types/Workout";
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { getWorkoutsFromStorage } from "@/utils/storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -15,8 +15,12 @@ export default function PreviousScore() {
   const workouts = getWorkoutsFromStorage();
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+  useEffect(() => {
+    console.log("workouts stored", JSON.stringify(workouts, null, 2));
+  }, [workouts]);
+
+  const formatDate = (dateTimestamp: number) => {
+    const date = new Date(dateTimestamp);
     return date.toLocaleDateString("en-US", {
       weekday: "short",
       year: "numeric",
@@ -49,7 +53,7 @@ export default function PreviousScore() {
             Workout #{workouts.length - index}
           </Text>
           <Text className="text-sm text-muted-foreground">
-            {formatDate(workout.dateTimestamp.toString())}
+            {formatDate(workout.dateTimestamp)}
           </Text>
         </View>
 
