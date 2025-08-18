@@ -8,6 +8,7 @@ interface RowProps {
   unit: string;
   onIncrement: () => void;
   onDecrement: () => void;
+  labelClassName?: string;
 }
 
 export const ExerciseRow = ({
@@ -16,12 +17,13 @@ export const ExerciseRow = ({
   unit,
   onIncrement,
   onDecrement,
+  labelClassName = "",
 }: RowProps) => {
   return (
     <View className="flex-row justify-between items-center">
-      <Text className="text-base text-text">
+      <Text className={`text-base text-text ${labelClassName}`}>
         {label}{" "}
-        <Text className="text-muted">
+        <Text className={`text-muted ${labelClassName}`}>
           {value}
           {unit}
         </Text>

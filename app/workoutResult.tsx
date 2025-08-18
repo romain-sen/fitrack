@@ -3,6 +3,7 @@ import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
 import { calculateTotalTransitionTime } from "@/modules/workoutResult/utils/calculateTotalTransitionTime";
 import {
+  useAddedWeight,
   useWorkoutSteps,
   useWorkoutStoreActions,
 } from "@/stores/useWorkoutStore";
@@ -14,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function WorkoutResult() {
   const workoutSteps = useWorkoutSteps();
   const { saveWorkoutToLocalStorage } = useWorkoutStoreActions();
+  const addedWeight = useAddedWeight();
   const router = useRouter();
 
   const goHome = () => {
@@ -43,6 +45,11 @@ export default function WorkoutResult() {
             <MonoText className="text-2xl text-accent" size="lg">
               {formatTimeFromMsToMMSS(totalTime)}
             </MonoText>
+            {addedWeight > 0 && (
+              <Text className="text-lg text-muted-foreground mt-sm">
+                Added Weight: {addedWeight}kg
+              </Text>
+            )}
           </View>
 
           {/* Exercise Details */}

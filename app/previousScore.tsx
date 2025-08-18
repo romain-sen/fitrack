@@ -1,4 +1,5 @@
 import { YStack } from "@/components/ui/YStack";
+import { Exercise } from "@/modules/activity/types/Exercise";
 import { Workout } from "@/modules/activity/types/Workout";
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { getWorkoutsFromStorage } from "@/utils/storage";
@@ -37,6 +38,15 @@ export default function PreviousScore() {
     }, 0);
   };
 
+  const getExerciseTotalTime = (exercise: Exercise) => {
+    if (exercise.startTimestamp && exercise.endTimestamp) {
+      return Math.floor(
+        (exercise.endTimestamp - exercise.startTimestamp) / 1000
+      );
+    }
+    return 0;
+  };
+
   const renderWorkoutCard = (workout: Workout, index: number) => {
     const isSelected = selectedWorkout?.dateTimestamp === workout.dateTimestamp;
 
@@ -66,9 +76,9 @@ export default function PreviousScore() {
           </View>
 
           <View className="items-end">
-            <Text className="text-sm text-muted-foreground">Exercises</Text>
+            <Text className="text-sm text-muted-foreground">Added Weight</Text>
             <Text className="text-lg font-bold text-text">
-              {getTotalExercises(workout)}
+              {workout.addedWeightInKg} kg
             </Text>
           </View>
         </View>
@@ -81,14 +91,11 @@ export default function PreviousScore() {
             {workout.exercises.map((exercise, exerciseIndex) => (
               <View
                 key={exerciseIndex}
-                className="mb-sm p-sm bg-background rounded"
+                className="flex-row justify-between items-center py-sm"
               >
-                <Text className="text-sm font-medium text-text">
-                  {exercise.name}
-                </Text>
-                <Text className="text-xs text-muted-foreground">
-                  {exercise.details.length}{" "}
-                  {exercise.unit === "rep" ? "reps" : "sets"}
+                <Text className="text-sm text-text">{exercise.name}</Text>
+                <Text className="text-sm text-text">
+                  {formatTimeFromSecondsToMMSS(getExerciseTotalTime(exercise))}
                 </Text>
               </View>
             ))}

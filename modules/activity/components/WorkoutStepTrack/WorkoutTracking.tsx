@@ -1,6 +1,7 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { YStack } from "@/components/ui/YStack";
 import { useGoalsValue } from "@/modules/goal/states/goalsAtom";
+import { useWeightAddedValue } from "@/modules/goal/states/weightAddedAtom";
 import {
   useIsWorkoutCompleted,
   useWorkoutCurrentStepIndex,
@@ -19,6 +20,7 @@ interface WorkoutTrackingProps {
 
 export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
   const goals = useGoalsValue();
+  const addedWeightInKg = useWeightAddedValue();
   const {
     initializeWorkout,
     finalizeCurrentStep,
@@ -36,8 +38,8 @@ export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
   const nowTimestamp = new Date().getTime();
 
   useEffect(() => {
-    initializeWorkout(workoutStepsTemplate, goals);
-  }, [goals, initializeWorkout, workoutStepsTemplate]);
+    initializeWorkout(workoutStepsTemplate, goals, addedWeightInKg);
+  }, [goals, initializeWorkout, workoutStepsTemplate, addedWeightInKg]);
 
   useEffect(() => {
     if (isWorkoutCompleted) {

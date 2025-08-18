@@ -5,4 +5,5 @@ export type Workout = {
   dateTimestamp: number;
   totalTime: number;
   totalTransitionTime: number;
+  addedWeightInKg: number;
 };

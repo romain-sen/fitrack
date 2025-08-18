@@ -1,6 +1,10 @@
 import { Text, View } from "react-native";
 import { useGoals, useTransitionTime } from "../states/goalsAtom";
 import {
+  useSetWeightAdded,
+  useWeightAddedValue,
+} from "../states/weightAddedAtom";
+import {
   calculateExerciseTimeInSeconds,
   calculateTotalGoalTime,
 } from "../util/calculateTotalTime";
@@ -10,6 +14,9 @@ import { ExerciseRow } from "./ExerciseRow";
 export const TimeGoalDetailed = () => {
   const [exercises, setExercises] = useGoals();
   const [transitionTime, setTransitionTime] = useTransitionTime();
+  const weightAdded = useWeightAddedValue();
+
+  const setWeightAdded = useSetWeightAdded();
 
   const totalTimeInMinutes = calculateTotalGoalTime(
     exercises.map((ex) => ({
@@ -69,6 +76,20 @@ export const TimeGoalDetailed = () => {
           unit={"sec"}
           onIncrement={() => setTransitionTime(transitionTime + 1)}
           onDecrement={() => setTransitionTime(transitionTime - 1)}
+        />
+      </View>
+
+      {/* Weight added */}
+      <View className="px-lg mt-lg">
+        <Text className="text-base font-medium text-muted">Weight added</Text>
+        <ExerciseRow
+          index={exercises.length + 1}
+          label={""}
+          labelClassName="font-semibold text-text text-xl"
+          value={weightAdded}
+          unit={"kg"}
+          onIncrement={() => setWeightAdded(weightAdded + 1)}
+          onDecrement={() => setWeightAdded(weightAdded - 1)}
         />
       </View>
     </View>
