@@ -3,7 +3,7 @@ import { Exercise } from "@/modules/activity/types/Exercise";
 import { Workout } from "@/modules/activity/types/Workout";
 import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { getWorkoutsFromStorage } from "@/utils/storage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -15,10 +15,6 @@ import {
 export default function PreviousScore() {
   const workouts = getWorkoutsFromStorage();
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
-
-  useEffect(() => {
-    console.log("workouts stored", JSON.stringify(workouts, null, 2));
-  }, [workouts]);
 
   const formatDate = (dateTimestamp: number) => {
     const date = new Date(dateTimestamp);

@@ -26,7 +26,6 @@ export default function WorkoutResult() {
   const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
   const firstTimestamp = workoutSteps[0]?.startTimestamp;
   if (!firstTimestamp || !lastTimestamp) {
-    console.log("workoutSteps", workoutSteps);
     throw new Error("First and last timestamps should be defined");
   }
 

@@ -24,7 +24,6 @@ export const getWorkoutsFromStorage = () => {
   if (!workouts) {
     return [];
   }
-  console.log("workouts", workouts);
   return JSON.parse(workouts);
 };
 
