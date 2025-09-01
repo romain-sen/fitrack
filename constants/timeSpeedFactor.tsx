@@ -1,1 +1,1 @@
-export const TIME_SPEED_FACTOR = 5;
+export const TIME_SPEED_FACTOR = 1;
