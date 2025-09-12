@@ -1,4 +1,5 @@
 import { XStack } from "@/components/ui/XStack";
+import { useTheme } from "@/providers/ThemeProvider";
 import {
   useWorkoutCurrentStepIndex,
   useWorkoutSteps,
@@ -6,13 +7,13 @@ import {
 import { formatTimeFromMsToMMSS } from "@/utils/formatTime";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, Text, useColorScheme, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { parseWorkoutTimeline } from "../../utils/parseWorkoutTimeline";
 
 const TIME_BEFORE_AUTO_SCROLL = 2000;
 
 export const WorkoutSummaryTimeline = () => {
-  const colorScheme = useColorScheme();
+  const { theme } = useTheme();
   const steps = useWorkoutSteps();
   const currentStepIndex = useWorkoutCurrentStepIndex();
   const scrollViewRef = useRef<ScrollView>(null);
@@ -73,7 +74,7 @@ export const WorkoutSummaryTimeline = () => {
     <View className="relative" style={{ maxHeight: 140 }}>
       <LinearGradient
         colors={
-          colorScheme === "light"
+          theme === "light"
             ? ["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0)"]
             : ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"]
         }
@@ -116,7 +117,7 @@ export const WorkoutSummaryTimeline = () => {
       </ScrollView>
       <LinearGradient
         colors={
-          colorScheme === "light"
+          theme === "light"
             ? ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]
             : ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 1)"]
         }
@@ -158,8 +159,8 @@ const TimelineRow = ({
         isCurrent ? "bg-accent-light" : "bg-background"
       }`}
     >
-      <Text className="text-text text-xs font-medium">{name}</Text>
-      <Text className="text-text text-xs font-mono">
+      <Text className="text-text text-md font-medium">{name}</Text>
+      <Text className="text-text text-md font-mono">
         {formatTimeFromMsToMMSS(duration)}
       </Text>
     </XStack>

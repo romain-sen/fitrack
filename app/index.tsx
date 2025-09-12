@@ -45,7 +45,7 @@ export default function App() {
         >
           <Image
             source={murphWallpaper}
-            resizeMode="contain"
+            resizeMode="stretch"
             style={{
               aspectRatio: 1,
               height: 832,

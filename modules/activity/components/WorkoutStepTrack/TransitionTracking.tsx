@@ -18,14 +18,14 @@ export const TransitionTracking = ({ markAsDone }: TransitionTrackingProps) => {
     <View className="p-5xl flex-1 items-center bg-background">
       <Text className="text-text text-4xl font-semibold">Transition</Text>
 
-      <YStack className="w-1/2 mt-xl flex-1 justify-center gap-md">
+      <YStack className=" mt-xl flex-1 justify-center gap-md">
         <Text className="mx-auto text-text text-lg mt">{"Time left"}</Text>
-        <MonoText size="lg">
+        <MonoText>
           {formatTimeFromSecondsToMMSS(countdown || timeInSeconds)}
         </MonoText>
       </YStack>
 
-      <CTAButton onPress={markAsDone} title="Mark as done" size="lg" />
+      <CTAButton onPress={markAsDone} title="Mark as done" />
     </View>
   );
 };

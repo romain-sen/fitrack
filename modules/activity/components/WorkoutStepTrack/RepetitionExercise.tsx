@@ -51,7 +51,7 @@ export const RepetitionExercise = ({
   }, [repetitionsDone, totalRepetitionsGoal, markAsDone]);
 
   return (
-    <View className="p-5xl flex-1 items-center bg-background">
+    <View className="py-5xl px-lg flex-1 items-center bg-background">
       <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
       <YStack className="w-full mt-xl flex-1 justify-center gap-5xl">
         <YStack>
@@ -69,10 +69,11 @@ export const RepetitionExercise = ({
               key={increment}
               onPress={() => handleRepetitionDone(increment)}
               title={increment.toString()}
-              size="md"
-              variant="outline"
+              size="2xl"
+              variant="default"
               square
-              rounded="sm"
+              rounded="md"
+              hitSlop={5}
             />
           ))}
         </XStack>
@@ -89,7 +90,7 @@ export const RepetitionExercise = ({
             );
           })}
         </XStack>
-        <Text className="text-text text-lg mx-auto">
+        <Text className="text-text text-2xl mx-auto">
           {repetitionsDone} / {totalRepetitionsGoal}
         </Text>
       </YStack>
