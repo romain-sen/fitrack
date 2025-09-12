@@ -1,11 +1,13 @@
 import { CTAButton } from "@/components/ui/CTAButton";
+import { MonoText } from "@/components/ui/MonoText";
 import { XStack } from "@/components/ui/XStack";
 import { YStack } from "@/components/ui/YStack";
 import { useWorkoutStoreActions } from "@/stores/useWorkoutStore";
+import { formatTimeFromSecondsToMMSS } from "@/utils/formatTime";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { useChronometer } from "../../hooks/useChronometer";
 import { Exercise } from "../../types/Exercise";
-import { TimeLeftForStepChrono } from "./TimeLeftForStepChrono";
 
 const NUMBER_OF_STEPS = 10;
 
@@ -42,6 +44,7 @@ export const RepetitionExercise = ({
       numberOfReps: numberOfRepetitions,
       endTimestamp: new Date().getTime(),
     });
+    resetChronometerAndCountdown();
   };
 
   useEffect(() => {
@@ -50,18 +53,19 @@ export const RepetitionExercise = ({
     }
   }, [repetitionsDone, totalRepetitionsGoal, markAsDone]);
 
+  const { timeInSeconds, resetChronometerAndCountdown } = useChronometer({
+    countdownInSeconds: 0,
+  });
+
   return (
     <View className="py-5xl px-lg flex-1 items-center bg-background">
       <Text className="text-text text-4xl font-semibold ">{exercise.name}</Text>
       <YStack className="w-full mt-xl flex-1 justify-center gap-5xl">
-        <YStack>
-          <Text className="mx-auto text-text text-lg mt">
-            {"Rest time left"}
-          </Text>
-          <TimeLeftForStepChrono
-            key={currentStep} // 🔁 this triggers a full remount when the step changes (restart the chronometer)
-            goalValueInSeconds={timePerStep}
-          />
+        <YStack className="gap-md">
+          <Text className="mx-auto text-text text-lg ">{"Rest time"}</Text>
+          <MonoText size="lg" highlight={timeInSeconds > goalValueInSeconds}>
+            {formatTimeFromSecondsToMMSS(timeInSeconds)}
+          </MonoText>
         </YStack>
         <XStack className="justify-between">
           {exercise.repetitionIncrement.map((increment) => (
