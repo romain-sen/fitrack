@@ -82,18 +82,11 @@ export const useChronometer = ({ countdownInSeconds }: UseChronometerProps) => {
     };
   }, [running, useRealTime, TICK_INTERVAL]);
 
-  const resetChronometerAndCountdown = () => {
-    if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
-    if (chronometerIntervalRef.current)
-      clearInterval(chronometerIntervalRef.current);
-
-    countdownRef.current = countdownInSeconds;
-    chronometerStartRef.current = null;
+  const resetTimeOnly = () => {
+    // Only reset the time values without stopping the chronometer
+    chronometerStartRef.current = useRealTime ? Date.now() : null;
     manualChronoTimeRef.current = 0;
-
-    setCountdown(countdownInSeconds);
     setTimeInSeconds(0);
-    setRunning(false);
   };
 
   const pauseChronometer = () => {
@@ -103,7 +96,7 @@ export const useChronometer = ({ countdownInSeconds }: UseChronometerProps) => {
   return {
     countdown,
     running,
-    resetChronometerAndCountdown,
+    resetTimeOnly,
     pauseChronometer,
     timeInSeconds,
   };

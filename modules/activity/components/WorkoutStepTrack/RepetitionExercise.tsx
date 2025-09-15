@@ -44,7 +44,7 @@ export const RepetitionExercise = ({
       numberOfReps: numberOfRepetitions,
       endTimestamp: new Date().getTime(),
     });
-    resetChronometerAndCountdown();
+    resetTimeOnly();
   };
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export const RepetitionExercise = ({
     }
   }, [repetitionsDone, totalRepetitionsGoal, markAsDone]);
 
-  const { timeInSeconds, resetChronometerAndCountdown } = useChronometer({
+  const { timeInSeconds, resetTimeOnly } = useChronometer({
     countdownInSeconds: 0,
   });
 
