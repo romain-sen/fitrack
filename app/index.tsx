@@ -2,19 +2,11 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { YStack } from "@/components/ui/YStack";
 import { TimeGoalDetailed } from "@/modules/goal/components/TimeGoalDetailed";
 import { useRouter } from "expo-router";
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
 import { useWorkoutStoreActions } from "@/stores/useWorkoutStore";
 import { useEffect } from "react";
 // @ts-ignore
-import murphWallpaper from "@/assets/images/murph-wallpaper.png";
 
 export default function App() {
   const { resetWorkout } = useWorkoutStoreActions();
@@ -33,27 +25,11 @@ export default function App() {
       <YStack className="flex-1 justify-between px-lg pt-xl pb-5xl gap-2xl">
         {/* Header */}
         <View className="mb-2xl flex-row justify-between items-center">
-          <Text className="text-3xl font-bold text-text">Murph circuit</Text>
+          <Text className="text-4xl font-bold text-accent font-system shadow-black">
+            Fitrack
+          </Text>
           <ThemeToggle />
         </View>
-
-        {/* Workout Image */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingVertical: 8 }}
-        >
-          <Image
-            source={murphWallpaper}
-            resizeMode="stretch"
-            style={{
-              aspectRatio: 1,
-              height: 832,
-              width: "auto",
-              maxHeight: "100%",
-            }}
-          />
-        </ScrollView>
 
         {/* Start Button */}
         <TouchableOpacity

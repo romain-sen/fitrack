@@ -8,8 +8,8 @@ export const themes = {
     "--color-surface": "#FFFFFF",
     "--color-text": "#111111",
     "--color-muted": "#888888",
-    "--color-accent": "#FFA500",
-    "--color-accent-light": "#FFB733",
+    "--color-accent": "#FF8C00",
+    "--color-accent-light": "#FF9900", // Darker shade for better contrast
     "--color-red": "#EF4444",
     "--color-red-light": "#FCA5A5",
   }),
