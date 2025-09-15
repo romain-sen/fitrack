@@ -1,8 +1,8 @@
 import { YStack } from "@/components/ui/YStack";
-import { TimeGoalDetailed } from "@/modules/goal/components/TimeGoalDetailed";
 import { useRouter } from "expo-router";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native";
 
+import { CTAButton } from "@/components/ui/CTAButton";
 import { useWorkoutStoreActions } from "@/stores/useWorkoutStore";
 import { useEffect } from "react";
 
@@ -20,29 +20,26 @@ export const MurphScreenContent = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <YStack className="flex-1 justify-between px-lg pt-xl pb-5xl gap-2xl">
-        {/* Start Button */}
-        <TouchableOpacity
+      <YStack className="flex-1 justify-center w-2/3 mx-auto gap-xl">
+        <CTAButton
+          onPress={() => router.push("/murph/goalCalculator")}
+          title="Murph Goal Calculator"
+          size="lg"
+          variant="outline"
+        />
+
+        <CTAButton
+          title="Start"
           onPress={() => router.push("/activity")}
-          className="bg-accent py-lg rounded-2xl shadow-md items-center justify-center"
-        >
-          <Text className="text-xl font-bold text-background">Start</Text>
-        </TouchableOpacity>
+          size="lg"
+        />
 
-        {/* Time Goal Section */}
-        <TimeGoalDetailed />
-
-        {/* Fixed bottom section for "Previous score" */}
-        <View className="px-lg py-md bg-background border-t border-muted/30">
-          <TouchableOpacity
-            onPress={() => router.push("/previousScore")}
-            className="items-center"
-          >
-            <Text className="text-base text-accent-light font-medium">
-              Previous score
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <CTAButton
+          onPress={() => router.push("/previousScore")}
+          title="Previous score"
+          size="lg"
+          variant="outline"
+        />
       </YStack>
     </SafeAreaView>
   );

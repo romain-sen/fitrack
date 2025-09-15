@@ -1,7 +1,7 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { YStack } from "@/components/ui/YStack";
-import { useGoalsValue } from "@/modules/goal/states/goalsAtom";
-import { useWeightAddedValue } from "@/modules/goal/states/weightAddedAtom";
+import { useGoalsValue } from "@/modules/murph/states/goalsAtom";
+import { useWeightAddedValue } from "@/modules/murph/states/weightAddedAtom";
 import {
   useIsWorkoutCompleted,
   useWorkoutCurrentStepIndex,

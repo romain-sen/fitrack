@@ -151,7 +151,7 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
         className={`${
           variant === "outline" || variant === "ghost"
             ? "text-accent font-semibold"
-            : "text-primary font-semibold"
+            : "text-background font-semibold"
         } ${textSize} -mt-0.5`}
       >
         {title}

@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 
-export default function PreviousScore() {
+export default function PreviousScoreScreen() {
   const workouts = getWorkoutsFromStorage();
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
 
@@ -26,12 +26,6 @@ export default function PreviousScore() {
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
-
-  const getTotalExercises = (workout: Workout) => {
-    return workout.exercises.reduce((total, exercise) => {
-      return total + exercise.details.length;
-    }, 0);
   };
 
   const getExerciseTotalTime = (exercise: Exercise) => {
@@ -51,7 +45,7 @@ export default function PreviousScore() {
         key={workout.dateTimestamp}
         onPress={() => setSelectedWorkout(isSelected ? null : workout)}
         className={`p-md rounded-lg border ${
-          isSelected ? "bg-primary/10 border-primary" : "bg-card border-border"
+          isSelected ? "bg-primary/10 border-accent" : "bg-card border-primary"
         }`}
       >
         <View className="flex-row justify-between items-center mb-sm">

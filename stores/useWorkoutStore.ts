@@ -1,6 +1,6 @@
 import { Exercise } from "@/modules/activity/types/Exercise";
 import { Workout } from "@/modules/activity/types/Workout";
-import { ExerciseGoal } from "@/modules/goal/types/ExerciseGoal";
+import { ExerciseGoal } from "@/modules/murph/components/goal/types/ExerciseGoal";
 import { calculateTotalTransitionTime } from "@/modules/workoutResult/utils/calculateTotalTransitionTime";
 import { addWorkoutToStorage } from "@/utils/storage";
 import { create } from "zustand";
