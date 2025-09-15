@@ -10,7 +10,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen
           name="index"
-          options={{ header: () => <HeaderHomePage backButtonToShow="home" /> }}
+          options={{ header: () => <HeaderHomePage /> }}
         />
         <Stack.Screen
           name="activity"
@@ -34,7 +34,7 @@ export default function RootLayout() {
           options={{
             headerShown: true,
             headerTitle: "Murph",
-            header: () => <HeaderHomePage backButtonToShow="home" />,
+            header: () => <HeaderHomePage />,
           }}
         />
         <Stack.Screen

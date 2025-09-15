@@ -5,21 +5,11 @@ import { Text, TouchableOpacity, View } from "react-native";
 import ThemeToggle from "../ThemeToggle";
 import { XStack } from "../ui/XStack";
 
-interface HeaderHomePageProps {
-  backButtonToShow?: "back" | "home";
-}
-
-export const HeaderHomePage = ({
-  backButtonToShow = "back",
-}: HeaderHomePageProps) => {
+export const HeaderHomePage = () => {
   const router = useRouter();
 
   const handleBackPress = () => {
-    if (backButtonToShow === "back") {
-      router.back();
-    } else if (backButtonToShow === "home") {
-      router.dismissTo("/");
-    }
+    router.dismissTo("/");
   };
 
   return (
@@ -27,12 +17,7 @@ export const HeaderHomePage = ({
       {/* Header */}
       <View className="mb-2xl flex-row justify-between items-center">
         <XStack className="gap-md">
-          {backButtonToShow === "back" && (
-            <ActionButton onPress={handleBackPress} icon="arrow.left" />
-          )}
-          {backButtonToShow === "home" && (
-            <ActionButton onPress={handleBackPress} icon="house" />
-          )}
+          <ActionButton onPress={handleBackPress} icon="house" />
           <Text
             onPress={handleBackPress}
             className="text-4xl font-bold text-accent font-system shadow-black"
