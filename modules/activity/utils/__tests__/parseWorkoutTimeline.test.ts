@@ -8,7 +8,6 @@ describe("parseWorkoutTimeline", () => {
       unit: "km",
       taskAmount: 1.6,
       repetitionIncrement: [],
-      goalValueInSeconds: 700,
       startTimestamp: 0,
       endTimestamp: 200000,
       details: [],
@@ -19,7 +18,6 @@ describe("parseWorkoutTimeline", () => {
       unit: "rep",
       taskAmount: 100,
       repetitionIncrement: [],
-      goalValueInSeconds: 400,
       startTimestamp: 223000, // = endTimestamp of Running 1 + transition of 23000 ms
       endTimestamp: 658000, // 400s of goal + 35 seconds of late
       details: [],
@@ -30,9 +28,8 @@ describe("parseWorkoutTimeline", () => {
       unit: "rep",
       taskAmount: 200,
       repetitionIncrement: [],
-      goalValueInSeconds: 400,
       startTimestamp: 684000, // = endTimestamp of Pull Ups + transition of 26000 ms
-      endTimestamp: 1093000, // Goal value + 9 seconds of late
+      endTimestamp: 1093000, // Goal 400 value + 9 seconds of late
       details: [],
     },
     // Transition of 4 sec or 4000ms
@@ -41,9 +38,8 @@ describe("parseWorkoutTimeline", () => {
       unit: "rep",
       taskAmount: 300,
       repetitionIncrement: [],
-      goalValueInSeconds: 400,
       startTimestamp: 1097000, // = endTimestamp of Push Ups + transition of 4000 ms
-      endTimestamp: 1497000, // Goal value + 0 seconds of late
+      endTimestamp: 1497000, // Goal 400 value + 0 seconds of late
       details: [],
     },
     // Transition of 6000 ms
@@ -52,9 +48,8 @@ describe("parseWorkoutTimeline", () => {
       unit: "km",
       taskAmount: 1.6,
       repetitionIncrement: [],
-      goalValueInSeconds: 700,
       startTimestamp: 1503000, // = endTimestamp of Squats + transition of 6000 ms
-      endTimestamp: 2316000, // Goal value + 113 seconds of late
+      endTimestamp: 2316000, // Goal 700 value + 113 seconds of late
       details: [],
     },
   ];
@@ -112,7 +107,7 @@ describe("parseWorkoutTimeline with transition", () => {
         unit: "rep",
         taskAmount: 100,
         repetitionIncrement: [],
-        goalValueInSeconds: 400,
+
         startTimestamp:
           i === 0 ? 0 : i <= transitionIndex ? baseTimestamp : null,
         endTimestamp:

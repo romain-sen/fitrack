@@ -1,6 +1,5 @@
 import { Spinner } from "@/components/ui/Spinner";
 import { YStack } from "@/components/ui/YStack";
-import { useGoalsValue } from "@/modules/murph/states/goalsAtom";
 import { useWeightAddedValue } from "@/modules/murph/states/weightAddedAtom";
 import {
   useIsWorkoutCompleted,
@@ -19,7 +18,6 @@ interface WorkoutTrackingProps {
 }
 
 export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
-  const goals = useGoalsValue();
   const addedWeightInKg = useWeightAddedValue();
   const {
     initializeWorkout,
@@ -38,8 +36,8 @@ export const WorkoutTracking = ({ finishWorkout }: WorkoutTrackingProps) => {
   const nowTimestamp = new Date().getTime();
 
   useEffect(() => {
-    initializeWorkout(workoutStepsTemplate, goals, addedWeightInKg);
-  }, [goals, initializeWorkout, workoutStepsTemplate, addedWeightInKg]);
+    initializeWorkout(workoutStepsTemplate, addedWeightInKg);
+  }, [initializeWorkout, workoutStepsTemplate, addedWeightInKg]);
 
   useEffect(() => {
     if (isWorkoutCompleted) {

@@ -1,7 +1,9 @@
 import { Text, View } from "react-native";
 
 import { YStack } from "@/components/ui/YStack";
-import { useGoals, useTransitionTime } from "../../states/goalsAtom";
+import { useState } from "react";
+import { INITIAL_EXERCISE_TIME_GOAL } from "../../constants/initialExerciseTimeGoal";
+import { ExerciseGoal } from "../../types/ExerciseGoal";
 import {
   calculateExerciseTimeInSeconds,
   calculateTotalGoalTime,
@@ -10,8 +12,10 @@ import { formatMinutes } from "../../util/formatMinutes";
 import { ExerciseRow } from "./ExerciseRow";
 
 export const TimeGoalDetailed = () => {
-  const [exercises, setExercises] = useGoals();
-  const [transitionTime, setTransitionTime] = useTransitionTime();
+  const [exercises, setExercises] = useState<ExerciseGoal[]>(
+    INITIAL_EXERCISE_TIME_GOAL
+  );
+  const [transitionTime, setTransitionTime] = useState<number>(0);
 
   const totalTimeInMinutes = calculateTotalGoalTime(
     exercises.map((ex) => ({

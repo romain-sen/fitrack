@@ -2,11 +2,12 @@ import { ExerciseGoal } from "../../types/ExerciseGoal";
 import {
   calculateExerciseTimeInSeconds,
   calculateTotalGoalTime,
+  ExerciseGoalCalculation,
 } from "../calculateTotalTime";
 
 describe("calculateTotalGoalTime", () => {
   it("should calculate total time for km/h exercises", () => {
-    const exercises = [
+    const exercises: ExerciseGoalCalculation[] = [
       {
         label: "Running",
         unit: "km/h" as const,

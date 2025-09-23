@@ -13,7 +13,7 @@ export const ExerciseTracking = ({
   markAsDone,
 }: ExerciseTrackingProps) => {
   const { countdown, timeInSeconds } = useChronometer({
-    countdownInSeconds: exercise.goalValueInSeconds ?? 0,
+    countdownInSeconds: 0,
   });
 
   if (exercise.unit === "km") {

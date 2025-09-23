@@ -81,15 +81,6 @@ export default function WorkoutResult() {
                         {formatTimeFromMsToMMSS(duration)}
                       </Text>
                     </View>
-
-                    {step.goalValueInSeconds && (
-                      <View className="flex-row justify-between">
-                        <Text className="text-text">Goal:</Text>
-                        <Text className="text-text">
-                          {formatTimeFromMsToMMSS(step.goalValueInSeconds)}
-                        </Text>
-                      </View>
-                    )}
                   </View>
                 </View>
               );

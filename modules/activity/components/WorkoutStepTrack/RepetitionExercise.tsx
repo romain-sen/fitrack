@@ -10,7 +10,7 @@ import { useChronometer } from "../../hooks/useChronometer";
 import { Exercise } from "../../types/Exercise";
 
 const NUMBER_OF_STEPS = 10;
-
+const SECONDS_BEFORE_HIGHLIGHT = 60;
 interface RepetitionExerciseProps {
   exercise: Exercise;
   markAsDone: () => void;
@@ -22,7 +22,6 @@ export const RepetitionExercise = ({
 }: RepetitionExerciseProps) => {
   const [repetitionsDone, setRepetitionsDone] = useState(0);
   const totalRepetitionsGoal = exercise.taskAmount;
-  const goalValueInSeconds = exercise.goalValueInSeconds;
   const { addDetailToCurrentStep } = useWorkoutStoreActions();
 
   // If stepProgress is 0.1, it means we have done 10% of the total repetitions goal
@@ -30,12 +29,6 @@ export const RepetitionExercise = ({
   // Need to round the stepProgress to the step before
   const stepProgress = repetitionsDone / totalRepetitionsGoal;
   const currentStep = Math.floor(stepProgress * NUMBER_OF_STEPS);
-
-  if (!goalValueInSeconds) {
-    throw new Error("Goal value in seconds and start timestamp are required");
-  }
-
-  const timePerStep = goalValueInSeconds / NUMBER_OF_STEPS;
 
   const handleRepetitionDone = (numberOfRepetitions: number) => {
     setRepetitionsDone(repetitionsDone + numberOfRepetitions);
@@ -63,7 +56,10 @@ export const RepetitionExercise = ({
       <YStack className="w-full mt-xl flex-1 justify-center gap-5xl">
         <YStack className="gap-md">
           <Text className="mx-auto text-text text-lg ">{"Rest time"}</Text>
-          <MonoText size="lg" highlight={timeInSeconds > goalValueInSeconds}>
+          <MonoText
+            size="lg"
+            highlight={timeInSeconds > SECONDS_BEFORE_HIGHLIGHT}
+          >
             {formatTimeFromSecondsToMMSS(timeInSeconds)}
           </MonoText>
         </YStack>

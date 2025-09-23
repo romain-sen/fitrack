@@ -1,6 +1,6 @@
 import { ExerciseGoal } from "../types/ExerciseGoal";
 
-interface ExerciseGoalCalculation extends ExerciseGoal {
+export interface ExerciseGoalCalculation extends ExerciseGoal {
   transitionTimeSec: number;
 }
 

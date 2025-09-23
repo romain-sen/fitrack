@@ -1,6 +1,5 @@
 import { Exercise } from "@/modules/activity/types/Exercise";
 import { Workout } from "@/modules/activity/types/Workout";
-import { ExerciseGoal } from "@/modules/murph/components/goal/types/ExerciseGoal";
 import { calculateTotalTransitionTime } from "@/modules/workoutResult/utils/calculateTotalTransitionTime";
 import { addWorkoutToStorage } from "@/utils/storage";
 import { create } from "zustand";
@@ -12,15 +11,13 @@ type WorkoutStore = {
   addedWeightInKg: number;
   actions: {
     /**
-     * Initialize the workout with the given template and goals
+     * Initialize the workout with the given template
      * Set the startTimestamp of the first step to the current timestamp
      * @param workoutStepsTemplate - The template of the workout
-     * @param goals - The goals of the workout
      * @param addedWeightInKg - The weight added for the workout in kg
      */
     initializeWorkout: (
       workoutStepsTemplate: Exercise[],
-      goals: ExerciseGoal[],
       addedWeightInKg: number
     ) => void;
 
@@ -46,13 +43,11 @@ const useWorkoutStore = create<WorkoutStore>((set, get) => ({
   isWorkoutCompleted: false,
   addedWeightInKg: 0,
   actions: {
-    initializeWorkout: (workoutStepsTemplate, goals, addedWeightInKg) => {
-      const goalsInSeconds = goals.map((goal) => goal.goalValueInSeconds);
+    initializeWorkout: (workoutStepsTemplate, addedWeightInKg) => {
       const now = new Date().getTime();
 
       const initialized = workoutStepsTemplate.map((step, index) => ({
         ...step,
-        goalValueInSeconds: goalsInSeconds[index] ?? null,
         startTimestamp: index === 0 ? now : null,
         endTimestamp: null,
         details: [],
