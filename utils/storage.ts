@@ -1,4 +1,5 @@
 import { Workout } from "@/modules/activity/types/Workout";
+import { FreeWorkout } from "@/stores/useFreeWorkoutStore";
 import { MMKV } from "react-native-mmkv";
 
 export const secureStorage = new MMKV({
@@ -37,4 +38,24 @@ export const deleteWorkoutFromStorage = (dateTimestamp: number) => {
     (workout: Workout) => workout.dateTimestamp !== dateTimestamp
   );
   secureStorage.set("workouts", JSON.stringify(filteredWorkouts));
+};
+
+export const addFreeWorkoutToStorage = (workout: FreeWorkout) => {
+  const workouts = secureStorage.getString("freeWorkouts");
+  if (!workouts) {
+    secureStorage.set("freeWorkouts", JSON.stringify([workout]));
+  } else {
+    secureStorage.set(
+      "freeWorkouts",
+      JSON.stringify([...JSON.parse(workouts), workout])
+    );
+  }
+};
+
+export const getFreeWorkoutsFromStorage = () => {
+  const workouts = secureStorage.getString("freeWorkouts");
+  if (!workouts) {
+    return [];
+  }
+  return JSON.parse(workouts);
 };
