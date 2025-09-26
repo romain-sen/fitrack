@@ -20,6 +20,14 @@ export type FreeWorkout = {
   totalTime: number;
 };
 
+const defaultValuesOfFreeWorkoutExercise = (timestamp: number) => ({
+  name: "",
+  numberOfReps: 0,
+  startTimestamp: timestamp,
+  endTimestamp: null,
+  details: [],
+});
+
 type FreeWorkoutStore = {
   workoutSteps: FreeWorkoutExercise[];
   currentStepIndex: number;
@@ -49,8 +57,20 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
   isWorkoutCompleted: false,
   actions: {
     initializeWorkout: () => {
+      // Must be idempotent
+      const { workoutSteps, currentStepIndex, isWorkoutCompleted } = get();
+      if (
+        workoutSteps.length > 0 &&
+        currentStepIndex > 0 &&
+        isWorkoutCompleted
+      ) {
+        return;
+      }
+
       set({
-        workoutSteps: [],
+        workoutSteps: [
+          defaultValuesOfFreeWorkoutExercise(new Date().getTime()),
+        ],
         currentStepIndex: 0,
         isWorkoutCompleted: false,
       });
@@ -62,8 +82,10 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
       const current = updatedSteps[currentStepIndex];
       if (!current) return;
 
-      current.name = name;
-      set({ workoutSteps: updatedSteps });
+      const newWorkoutSteps = updatedSteps.map((step, index) =>
+        index === currentStepIndex ? { ...step, name: name } : step
+      );
+      set({ workoutSteps: newWorkoutSteps });
     },
 
     addRepsToCurrentExercise: (detail) => {
@@ -72,8 +94,13 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
       const current = updatedSteps[currentStepIndex];
       if (!current) return;
 
-      current.details = [...current.details, detail];
-      set({ workoutSteps: updatedSteps });
+      const newDetails = [...current.details, detail];
+      const newWorkoutSteps = updatedSteps.map((step, index) =>
+        index === currentStepIndex ? { ...step, details: newDetails } : step
+      );
+      set({
+        workoutSteps: newWorkoutSteps,
+      });
     },
 
     /* Finish current exercise and start next exercise */
@@ -82,13 +109,18 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
 
       const nextIndex = currentStepIndex + 1;
       const updatedSteps = [...workoutSteps];
-      updatedSteps.push({
-        name: "",
-        numberOfReps: 0,
-        startTimestamp: timestamp,
-        endTimestamp: null,
-        details: [],
-      });
+
+      // Finish current exercise by setting the endTimestamp to the current timestamp
+      updatedSteps[currentStepIndex].endTimestamp = timestamp;
+
+      // If the name of the exercise is empty, set it to the name of the current exercise
+      if (updatedSteps[currentStepIndex].name === "") {
+        updatedSteps[currentStepIndex].name =
+          `Exercise ${currentStepIndex + 1}`;
+      }
+
+      // Start next exercise by adding a new exercise with the current timestamp
+      updatedSteps.push(defaultValuesOfFreeWorkoutExercise(timestamp));
 
       set({
         workoutSteps: updatedSteps,
@@ -97,7 +129,19 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
     },
 
     markWorkoutCompleted: () => {
-      set({ isWorkoutCompleted: true });
+      const { workoutSteps, currentStepIndex } = get();
+
+      // Finish current exercise by setting the endTimestamp to the current timestamp
+      const updatedSteps = [...workoutSteps];
+      updatedSteps[currentStepIndex].endTimestamp = new Date().getTime();
+
+      // If the name of the exercise is empty, set it to the name of the current exercise
+      if (updatedSteps[currentStepIndex].name === "") {
+        updatedSteps[currentStepIndex].name =
+          `Exercise ${currentStepIndex + 1}`;
+      }
+
+      set({ workoutSteps: updatedSteps, isWorkoutCompleted: true });
     },
 
     resetWorkout: () => {
@@ -124,6 +168,17 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
         dateTimestamp: new Date().getTime(),
         totalTime: totalTimeSeconds,
       };
+
+      console.log("saving workout to local storage : ", workout);
+      console.log("first exercise name : ", workout.exercises[0].name);
+      console.log("exercise details : ");
+      workout.exercises.forEach((exercise) => {
+        console.log("exercise name : ", exercise.name);
+        console.log("exercise details :");
+        exercise.details.forEach((detail) => {
+          console.log("detail : ", detail);
+        });
+      });
       addFreeWorkoutToStorage(workout);
     },
   },
@@ -152,4 +207,9 @@ export const useIsWorkoutCompleted = () => {
 export const useCurrentExerciseName = () => {
   const { workoutSteps, currentStepIndex } = useFreeWorkoutStore();
   return workoutSteps[currentStepIndex]?.name;
+};
+
+export const useCurrentExerciseIndex = () => {
+  const { currentStepIndex } = useFreeWorkoutStore();
+  return currentStepIndex;
 };

@@ -5,6 +5,7 @@ import { XStack } from "@/components/ui/XStack";
 import { YStack } from "@/components/ui/YStack";
 import { useChronometer } from "@/modules/activity/hooks/useChronometer";
 import {
+  useCurrentExerciseIndex,
   useCurrentExerciseName,
   useFreeWorkoutStoreActions,
 } from "@/stores/useFreeWorkoutStore";
@@ -25,17 +26,25 @@ export const FreeWorkoutRepetitionExercise = ({
   const [repetitionsDone, setRepetitionsDone] = useState(0);
   const totalRepetitionsGoal = 100;
   const {
+    initializeWorkout,
     addRepsToCurrentExercise,
     startNextExercise,
     updateCurrentExerciseName,
+    saveWorkoutToLocalStorage,
+    markWorkoutCompleted,
   } = useFreeWorkoutStoreActions();
   const currentExerciseName = useCurrentExerciseName();
+  const currentExerciseIndex = useCurrentExerciseIndex();
 
   // If stepProgress is 0.1, it means we have done 10% of the total repetitions goal
   // If stepProgress is 0.14 we are between step 1 and 2, but we don't highlight step 2
   // Need to round the stepProgress to the step before
   const stepProgress = repetitionsDone / totalRepetitionsGoal;
   const currentStep = Math.floor(stepProgress * NUMBER_OF_STEPS);
+
+  useEffect(() => {
+    initializeWorkout();
+  }, []);
 
   const handleRepetitionDone = (numberOfRepetitions: number) => {
     setRepetitionsDone(repetitionsDone + numberOfRepetitions);
@@ -48,10 +57,13 @@ export const FreeWorkoutRepetitionExercise = ({
   };
 
   const handleNextExercise = () => {
+    setRepetitionsDone(0);
     startNextExercise(new Date().getTime());
   };
 
   const finishWorkout = () => {
+    markWorkoutCompleted();
+    saveWorkoutToLocalStorage();
     onFinishWorkout();
   };
 
@@ -72,7 +84,7 @@ export const FreeWorkoutRepetitionExercise = ({
         <TextInput
           containerClassName="mt-xl"
           className="text-center"
-          placeholder="Exercise name"
+          placeholder={`Exercise ${currentExerciseIndex + 1}`}
           onChangeText={(text) => updateCurrentExerciseName(text)}
           value={currentExerciseName}
         />
