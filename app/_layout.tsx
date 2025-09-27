@@ -53,6 +53,22 @@ export default function RootLayout() {
             header: () => <HeaderHomePage />,
           }}
         />
+        <Stack.Screen
+          name="workout-result/murphWorkoutResult"
+          options={{
+            headerShown: false,
+            headerTitle: "Murph Workout Result",
+            header: () => <HeaderHomePage />,
+          }}
+        />
+        <Stack.Screen
+          name="workout-result/freeWorkoutResult"
+          options={{
+            headerShown: false,
+            headerTitle: "Free Workout Result",
+            header: () => <HeaderHomePage />,
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );

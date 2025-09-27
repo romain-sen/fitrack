@@ -15,7 +15,7 @@ export const ActivityScreenContent = () => {
   });
 
   const finishWorkout = () => {
-    router.push("/workoutResult");
+    router.push("/workout-result/murphWorkoutResult");
   };
 
   if (countdown !== null && countdown > 0) {

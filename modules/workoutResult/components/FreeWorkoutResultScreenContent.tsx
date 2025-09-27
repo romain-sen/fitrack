@@ -2,19 +2,16 @@ import { CTAButton } from "@/components/ui/CTAButton";
 import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
 import { calculateTotalTransitionTime } from "@/modules/workoutResult/utils/calculateTotalTransitionTime";
-import {
-  useAddedWeight,
-  useWorkoutSteps,
-  useWorkoutStoreActions,
-} from "@/stores/useWorkoutStore";
+import { useFreeWorkoutStoreActions } from "@/stores/useFreeWorkoutStore";
+import { useAddedWeight, useWorkoutSteps } from "@/stores/useWorkoutStore";
 import { formatTimeFromMsToMMSS } from "@/utils/formatTime";
 import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function WorkoutResult() {
+export const FreeWorkoutResultScreenContent = () => {
   const workoutSteps = useWorkoutSteps();
-  const { saveWorkoutToLocalStorage } = useWorkoutStoreActions();
+  const { saveWorkoutToLocalStorage } = useFreeWorkoutStoreActions();
   const addedWeight = useAddedWeight();
   const router = useRouter();
 
@@ -103,4 +100,4 @@ export default function WorkoutResult() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
