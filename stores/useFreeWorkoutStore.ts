@@ -42,7 +42,7 @@ type FreeWorkoutStore = {
       endTimestamp: number;
     }) => void;
 
-    startNextExercise: (timestamp: number) => void;
+    startNextExercise: () => void;
 
     markWorkoutCompleted: () => void;
     resetWorkout: () => void;
@@ -57,16 +57,6 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
   isWorkoutCompleted: false,
   actions: {
     initializeWorkout: () => {
-      // Must be idempotent
-      const { workoutSteps, currentStepIndex, isWorkoutCompleted } = get();
-      if (
-        workoutSteps.length > 0 &&
-        currentStepIndex > 0 &&
-        isWorkoutCompleted
-      ) {
-        return;
-      }
-
       set({
         workoutSteps: [
           defaultValuesOfFreeWorkoutExercise(new Date().getTime()),
@@ -104,14 +94,14 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
     },
 
     /* Finish current exercise and start next exercise */
-    startNextExercise: (timestamp) => {
+    startNextExercise: () => {
       const { currentStepIndex, workoutSteps } = get();
 
       const nextIndex = currentStepIndex + 1;
       const updatedSteps = [...workoutSteps];
 
       // Finish current exercise by setting the endTimestamp to the current timestamp
-      updatedSteps[currentStepIndex].endTimestamp = timestamp;
+      updatedSteps[currentStepIndex].endTimestamp = new Date().getTime();
 
       // If the name of the exercise is empty, set it to the name of the current exercise
       if (updatedSteps[currentStepIndex].name === "") {
@@ -120,7 +110,9 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
       }
 
       // Start next exercise by adding a new exercise with the current timestamp
-      updatedSteps.push(defaultValuesOfFreeWorkoutExercise(timestamp));
+      updatedSteps.push(
+        defaultValuesOfFreeWorkoutExercise(new Date().getTime())
+      );
 
       set({
         workoutSteps: updatedSteps,
@@ -157,7 +149,9 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
       const firstTimestamp = workoutSteps[0]?.startTimestamp;
       const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
       if (!firstTimestamp || !lastTimestamp) {
-        throw new Error("First and last timestamps should be defined");
+        throw new Error(
+          "[useFreeWorkoutStore] - [saveWorkoutToLocalStorage] First and last timestamps should be defined"
+        );
       }
       const totalTimeSeconds = Math.floor(
         (lastTimestamp - firstTimestamp) / 1000
@@ -169,16 +163,6 @@ const useFreeWorkoutStore = create<FreeWorkoutStore>((set, get) => ({
         totalTime: totalTimeSeconds,
       };
 
-      console.log("saving workout to local storage : ", workout);
-      console.log("first exercise name : ", workout.exercises[0].name);
-      console.log("exercise details : ");
-      workout.exercises.forEach((exercise) => {
-        console.log("exercise name : ", exercise.name);
-        console.log("exercise details :");
-        exercise.details.forEach((detail) => {
-          console.log("detail : ", detail);
-        });
-      });
       addFreeWorkoutToStorage(workout);
     },
   },

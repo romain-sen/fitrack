@@ -15,7 +15,7 @@ export const FreeWorkoutScreenContent = () => {
   });
 
   const onFinishWorkout = () => {
-    router.push("/"); // TODO: Change to workoutResult
+    router.push("/workout-result/freeWorkoutResult");
   };
 
   if (countdown !== null && countdown > 0) {

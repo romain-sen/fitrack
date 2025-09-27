@@ -20,7 +20,6 @@ export default function RootLayout() {
             header: () => <Header showModalOnBackPress />,
           }}
         />
-        <Stack.Screen name="workoutResult" options={{ headerShown: false }} />
         <Stack.Screen
           name="previousScore"
           options={{

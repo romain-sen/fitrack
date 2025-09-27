@@ -124,7 +124,9 @@ const useWorkoutStore = create<WorkoutStore>((set, get) => ({
       const firstTimestamp = workoutSteps[0]?.startTimestamp;
       const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
       if (!firstTimestamp || !lastTimestamp) {
-        throw new Error("First and last timestamps should be defined");
+        throw new Error(
+          "[useWorkoutStore] - [saveWorkoutToLocalStorage] First and last timestamps should be defined"
+        );
       }
       const totalTimeSeconds = Math.floor(
         (lastTimestamp - firstTimestamp) / 1000

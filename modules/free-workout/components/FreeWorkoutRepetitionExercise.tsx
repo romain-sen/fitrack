@@ -58,7 +58,7 @@ export const FreeWorkoutRepetitionExercise = ({
 
   const handleNextExercise = () => {
     setRepetitionsDone(0);
-    startNextExercise(new Date().getTime());
+    startNextExercise();
   };
 
   const finishWorkout = () => {
@@ -66,12 +66,6 @@ export const FreeWorkoutRepetitionExercise = ({
     saveWorkoutToLocalStorage();
     onFinishWorkout();
   };
-
-  useEffect(() => {
-    if (repetitionsDone >= totalRepetitionsGoal) {
-      onFinishWorkout();
-    }
-  }, [repetitionsDone, totalRepetitionsGoal, onFinishWorkout]);
 
   const { timeInSeconds, resetTimeOnly } = useChronometer({
     countdownInSeconds: 0,

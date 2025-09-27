@@ -2,17 +2,19 @@ import { CTAButton } from "@/components/ui/CTAButton";
 import { MonoText } from "@/components/ui/MonoText";
 import { YStack } from "@/components/ui/YStack";
 import { calculateTotalTransitionTime } from "@/modules/workoutResult/utils/calculateTotalTransitionTime";
-import { useFreeWorkoutStoreActions } from "@/stores/useFreeWorkoutStore";
-import { useAddedWeight, useWorkoutSteps } from "@/stores/useWorkoutStore";
+import {
+  FreeWorkoutExercise,
+  useFreeWorkoutSteps,
+  useFreeWorkoutStoreActions,
+} from "@/stores/useFreeWorkoutStore";
 import { formatTimeFromMsToMMSS } from "@/utils/formatTime";
 import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export const FreeWorkoutResultScreenContent = () => {
-  const workoutSteps = useWorkoutSteps();
+  const workoutSteps = useFreeWorkoutSteps();
   const { saveWorkoutToLocalStorage } = useFreeWorkoutStoreActions();
-  const addedWeight = useAddedWeight();
   const router = useRouter();
 
   const goHome = () => {
@@ -23,7 +25,9 @@ export const FreeWorkoutResultScreenContent = () => {
   const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
   const firstTimestamp = workoutSteps[0]?.startTimestamp;
   if (!firstTimestamp || !lastTimestamp) {
-    throw new Error("First and last timestamps should be defined");
+    throw new Error(
+      "[FreeWorkoutResultScreenContent] First and last timestamps should be defined"
+    );
   }
 
   const totalTime = lastTimestamp - firstTimestamp;
@@ -41,11 +45,6 @@ export const FreeWorkoutResultScreenContent = () => {
             <MonoText className="text-2xl text-accent" size="lg">
               {formatTimeFromMsToMMSS(totalTime)}
             </MonoText>
-            {addedWeight > 0 && (
-              <Text className="text-lg text-muted-foreground mt-sm">
-                Added Weight: {addedWeight}kg
-              </Text>
-            )}
           </View>
 
           {/* Exercise Details */}
@@ -65,9 +64,7 @@ export const FreeWorkoutResultScreenContent = () => {
                       {step.name}
                     </Text>
                     <Text className="text-text">
-                      {step.unit === "km"
-                        ? `${step.taskAmount}km`
-                        : `${step.taskAmount} reps`}
+                      {`${getNumberOfReps(step.details)} reps`}
                     </Text>
                   </View>
 
@@ -100,4 +97,8 @@ export const FreeWorkoutResultScreenContent = () => {
       </ScrollView>
     </SafeAreaView>
   );
+};
+
+const getNumberOfReps = (step: FreeWorkoutExercise["details"]) => {
+  return step.reduce((acc, detail) => acc + detail.numberOfReps, 0);
 };

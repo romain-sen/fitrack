@@ -26,7 +26,9 @@ export const MurphWorkoutResultScreenContent = () => {
   const lastTimestamp = workoutSteps[workoutSteps.length - 1]?.endTimestamp;
   const firstTimestamp = workoutSteps[0]?.startTimestamp;
   if (!firstTimestamp || !lastTimestamp) {
-    throw new Error("First and last timestamps should be defined");
+    throw new Error(
+      "[MurphWorkoutResultScreenContent] First and last timestamps should be defined"
+    );
   }
 
   const totalTime = lastTimestamp - firstTimestamp;
