@@ -41,7 +41,7 @@ export const Header = ({ showModalOnBackPress = false }: HeaderProps) => {
   return (
     <>
       <View
-        className="bg-background px-4 pb-2"
+        className="bg-background px-4 pb-2 pt-safe"
         style={{ paddingTop: insets.top }}
       >
         <TouchableOpacity

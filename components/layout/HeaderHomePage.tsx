@@ -15,7 +15,7 @@ export const HeaderHomePage = () => {
   return (
     <View className="bg-background justify-between pl-xl pr-3xl pt-safe gap-2xl">
       {/* Header */}
-      <View className="mb-2xl flex-row justify-between items-center">
+      <View className="mb-2xl flex-row justify-between items-center pt-lg">
         <XStack className="gap-md">
           <ActionButton onPress={handleBackPress} icon="house" />
           <Text

@@ -10,7 +10,10 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen
           name="index"
-          options={{ header: () => <HeaderHomePage /> }}
+          options={{
+            header: () => <HeaderHomePage />,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen
           name="activity"
@@ -18,6 +21,7 @@ export default function RootLayout() {
             headerShown: true,
             headerTitle: "Activity",
             header: () => <Header showModalOnBackPress />,
+            gestureEnabled: false,
           }}
         />
         <Stack.Screen
@@ -50,6 +54,7 @@ export default function RootLayout() {
             headerShown: true,
             headerTitle: "Free Workout",
             header: () => <HeaderHomePage />,
+            gestureEnabled: false,
           }}
         />
         <Stack.Screen
@@ -58,6 +63,7 @@ export default function RootLayout() {
             headerShown: false,
             headerTitle: "Murph Workout Result",
             header: () => <HeaderHomePage />,
+            gestureEnabled: false,
           }}
         />
         <Stack.Screen
@@ -66,6 +72,7 @@ export default function RootLayout() {
             headerShown: false,
             headerTitle: "Free Workout Result",
             header: () => <HeaderHomePage />,
+            gestureEnabled: false,
           }}
         />
       </Stack>
