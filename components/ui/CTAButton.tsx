@@ -153,6 +153,8 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
             ? "text-accent font-semibold"
             : "text-background font-semibold"
         } ${textSize} -mt-0.5`}
+        numberOfLines={1}
+        ellipsizeMode="clip"
       >
         {title}
       </Text>
