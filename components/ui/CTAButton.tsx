@@ -36,7 +36,7 @@ const button = tv({
     {
       square: false,
       size: "sm",
-      class: "px-xl py-xs",
+      class: "px-lg py-xs",
     },
     {
       square: false,
@@ -46,17 +46,17 @@ const button = tv({
     {
       square: false,
       size: "lg",
-      class: "px-4xl py-md",
+      class: "px-2xl py-md",
     },
     {
       square: false,
       size: "xl",
-      class: "px-5xl py-lg",
+      class: "px-3xl py-lg",
     },
     {
       square: false,
       size: "2xl",
-      class: "px-6xl py-xl",
+      class: "px-4xl py-xl",
     },
     {
       square: true,
