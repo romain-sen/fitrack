@@ -10,9 +10,7 @@ interface TransitionTrackingProps {
 }
 
 export const TransitionTracking = ({ markAsDone }: TransitionTrackingProps) => {
-  const { countdown, timeInSeconds } = useChronometer({
-    countdownInSeconds: 0,
-  });
+  const { countdown, timeInSeconds } = useChronometer({});
 
   return (
     <View className="p-5xl flex-1 items-center bg-background">

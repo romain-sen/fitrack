@@ -46,9 +46,7 @@ export const RepetitionExercise = ({
     }
   }, [repetitionsDone, totalRepetitionsGoal, markAsDone]);
 
-  const { timeInSeconds, resetTimeOnly } = useChronometer({
-    countdownInSeconds: 0,
-  });
+  const { timeInSeconds, resetTimeOnly } = useChronometer({});
 
   return (
     <View className="py-5xl px-lg flex-1 items-center bg-background">
