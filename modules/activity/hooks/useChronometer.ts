@@ -49,16 +49,24 @@ export const useChronometer = ({
     };
   }, [countdownInSeconds]);
 
+  // Start interval helper
+  const startChronometerInterval = () => {
+    if (chronometerIntervalRef.current) {
+      clearInterval(chronometerIntervalRef.current);
+    }
+    chronometerStartRef.current = Date.now();
+    chronometerIntervalRef.current = setInterval(() => {
+      if (chronometerStartRef.current) {
+        const elapsedMs = Date.now() - chronometerStartRef.current;
+        setTimeInSeconds(Math.floor(elapsedMs / 1000));
+      }
+    }, TICK_INTERVAL);
+  };
+
   // Chronometer
   useEffect(() => {
     if (running) {
-      chronometerStartRef.current = Date.now();
-      chronometerIntervalRef.current = setInterval(() => {
-        if (chronometerStartRef.current) {
-          const elapsedMs = Date.now() - chronometerStartRef.current;
-          setTimeInSeconds(Math.floor(elapsedMs / 1000));
-        }
-      }, TICK_INTERVAL);
+      startChronometerInterval();
     } else {
       if (chronometerIntervalRef.current) {
         clearInterval(chronometerIntervalRef.current);
@@ -73,8 +81,12 @@ export const useChronometer = ({
   }, [running]);
 
   const resetTimeOnly = () => {
-    chronometerStartRef.current = Date.now();
     setTimeInSeconds(0);
+    if (running) {
+      startChronometerInterval();
+    } else {
+      chronometerStartRef.current = Date.now();
+    }
   };
 
   const pauseChronometer = () => {
